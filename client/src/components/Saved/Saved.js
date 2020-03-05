@@ -2,8 +2,12 @@ import React from "react";
 
 function Saved() {
   return (
-    <div>
-      <h1>Saved Books</h1>
+    <div className="container">
+      <div className="card">
+        <div classname="savedBooks">
+          <h1>Saved Books</h1>
+        </div>
+      </div>
     </div>
   );
 }
