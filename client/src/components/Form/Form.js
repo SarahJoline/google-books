@@ -9,7 +9,7 @@ function Form() {
     axios
       .request({
         method: "GET",
-        url: "https://www.googleapis.com/books/v1/volumes?q=" + "harry+potter"
+        url: `https://www.googleapis.com/books/v1/volumes?q=${value}`
       })
       .then(response =>
         this.setState({
@@ -20,7 +20,13 @@ function Form() {
   return (
     <div>
       <div className="form">
-        <input className="searchInput" type="text"></input>
+        <input
+          className="searchInput"
+          type="text"
+          onChange={e => {
+            modifier({ value: e.target.value });
+          }}
+        ></input>
         <button className="searchBtn">Search</button>
       </div>
     </div>
