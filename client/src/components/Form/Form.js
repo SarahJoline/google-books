@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import BookCards from "../BookCards/BookCards";
 
 function Form() {
   const [value, modifier] = useState({ value: " " });
@@ -29,9 +30,8 @@ function Form() {
         }
         booksModifier({ books: bookResults });
 
-        console.log(bookResults);
+        console.log("Form.js : " + bookResults);
       });
-    // booksModifier: response.data.items
   }
   return (
     <div>
@@ -47,7 +47,9 @@ function Form() {
           Search
         </button>
       </div>
-      <div className="book-display"></div>
+      <div>
+        <BookCards bData={book} />
+      </div>
     </div>
   );
 }
