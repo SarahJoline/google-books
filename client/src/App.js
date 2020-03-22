@@ -3,7 +3,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import axios from "axios";
 import Saved from "./components/Saved/Saved";
-import Search from "./components/Search/Search";
+import Form from "./components/Form/Form";
+import Navbar from "./components/Navbar/Navbar";
+
+import saved from "./pages/saved";
+import home from "./pages/home";
 
 class App extends Component {
   constructor() {
@@ -32,13 +36,10 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
+          <Navbar />
           <Switch>
-            <Route exact path="/">
-              <Search books={books} searchBooks={this.searchBooks} />
-            </Route>
-            <Route exact path="/saved">
-              <Saved />
-            </Route>
+            <Route exact path="/" component={home} />
+            <Route exact path="/saved" component={saved} />
           </Switch>
         </Router>
       </div>
