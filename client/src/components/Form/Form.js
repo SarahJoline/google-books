@@ -9,13 +9,29 @@ function Form() {
     axios
       .request({
         method: "GET",
-        url: `https://www.googleapis.com/books/v1/volumes?q=${value}`
+        url: `https://www.googleapis.com/books/v1/volumes?q=${value.value}`
       })
-      .then(response =>
-        this.setState({
-          books: response.data
-        })
-      );
+      .then(response => {
+        let bookData = response.data.items;
+        console.log(bookData);
+        let bookResults = [];
+        for (var i = 0; i < bookData.length; i++) {
+          let bookInfo = bookData[i].volumeInfo;
+          //console.log(bookInfo.imageLinks.thumbnail);
+          let book = {
+            title: bookInfo.title,
+            author: bookInfo.authors[0],
+            description: bookInfo.description,
+            link: bookInfo.infoLink
+            // image: bookInfo.imageLinks.thumbnail
+          };
+          bookResults.push(book);
+        }
+        booksModifier({ books: bookResults });
+
+        console.log(bookResults);
+      });
+    // booksModifier: response.data.items
   }
   return (
     <div>
@@ -27,8 +43,11 @@ function Form() {
             modifier({ value: e.target.value });
           }}
         ></input>
-        <button className="searchBtn">Search</button>
+        <button className="searchBtn" onClick={handleSearch}>
+          Search
+        </button>
       </div>
+      <div className="book-display"></div>
     </div>
   );
 }
