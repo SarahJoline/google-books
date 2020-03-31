@@ -14,10 +14,11 @@ router.get("/all", (req, res) => {
 
 router.post("/new", (req, res) => {
   db.Books.create({
+    id: req.body.id,
     title: req.body.text,
     author: req.body.author,
     description: req.body.description,
-    image: req.body.image,
+    //image: req.body.image,
     link: req.body.link
   }).then(newBook => {
     res.send(newBook);

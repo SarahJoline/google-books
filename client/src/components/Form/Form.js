@@ -4,7 +4,7 @@ import BookCards from "../BookCards/BookCards";
 
 function Form() {
   const [value, modifier] = useState({ value: " " });
-  let [book, booksModifier] = useState({ books: [] });
+  let [books, booksModifier] = useState([]);
 
   function handleSearch() {
     axios
@@ -18,8 +18,8 @@ function Form() {
         let bookResults = [];
         for (var i = 0; i < bookData.length; i++) {
           let bookInfo = bookData[i].volumeInfo;
-          //console.log(bookInfo.imageLinks.thumbnail);
           let book = {
+            id: bookData[i].id,
             title: bookInfo.title,
             author: bookInfo.authors[0],
             description: bookInfo.description,
@@ -28,9 +28,7 @@ function Form() {
           };
           bookResults.push(book);
         }
-        booksModifier({ books: bookResults });
-
-        console.log("Form.js : " + bookResults);
+        booksModifier(bookResults);
       });
   }
   return (
@@ -48,7 +46,7 @@ function Form() {
         </button>
       </div>
       <div>
-        <BookCards bData={book} />
+        <BookCards bData={books} />
       </div>
     </div>
   );
