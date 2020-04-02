@@ -21,10 +21,10 @@ function Form() {
           let book = {
             id: bookData[i].id,
             title: bookInfo.title,
-            author: bookInfo.authors[0],
+            authors: bookInfo.authors[0],
             description: bookInfo.description,
-            link: bookInfo.infoLink
-            // image: bookInfo.imageLinks.thumbnail
+            link: bookInfo.infoLink,
+            image: bookInfo.imageLinks.thumbnail
           };
           bookResults.push(book);
         }

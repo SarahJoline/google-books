@@ -4,13 +4,12 @@ import axios from "axios";
 function BookCards(props) {
   const books = props.bData;
 
-  console.log("bookCards: " + JSON.stringify(books));
-
   let bookArray = books.map((books, index) => {
     return (
       <div key={books.id}>
         <h3>{books.title}</h3>
-        <p>{books.description}</p>
+        <img src={books.image} alt={books.title}></img>
+        <p>{books.authors}</p>
         <a href={books.link}>More Info</a>
         <button
           className="save-button"
@@ -18,6 +17,7 @@ function BookCards(props) {
             saveBook(event, books);
           }}
           id={books.id}
+          data={books}
         >
           Save Book
         </button>
@@ -27,13 +27,13 @@ function BookCards(props) {
 
   function saveBook(event, books) {
     axios
-      .post("/new", {
+      .post("/saved", {
         id: books.id,
         title: books.title,
         authors: books.authors,
         description: books.description,
-        link: books.link
-        // image: books.image
+        link: books.link,
+        image: books.image
       })
       .catch(err => {
         if (err) {

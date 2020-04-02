@@ -10,18 +10,6 @@ import saved from "./pages/saved";
 import home from "./pages/home";
 
 function App() {
-  // searchBooks() {
-  //   axios
-  //     .request({
-  //       method: "GET",
-  //       url: "https://www.googleapis.com/books/v1/volumes?q=" + "harry+potter"
-  //     })
-  //     .then(response =>
-  //       this.setState({
-  //         books: response.data
-  //       })
-  //     );
-  // }
   return (
     <div className="App">
       <Router>
