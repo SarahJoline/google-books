@@ -18,13 +18,16 @@ function Form() {
         let bookResults = [];
         for (var i = 0; i < bookData.length; i++) {
           let bookInfo = bookData[i].volumeInfo;
+          var imageLink = bookInfo.imageLinks
+            ? bookInfo.imageLinks.thumbnail
+            : console.log("no image here");
           let book = {
             id: bookData[i].id,
             title: bookInfo.title,
-            authors: bookInfo.authors[0],
+            authors: bookInfo.authors,
             description: bookInfo.description,
             link: bookInfo.infoLink,
-            image: bookInfo.imageLinks.thumbnail
+            image: imageLink
           };
           bookResults.push(book);
         }
