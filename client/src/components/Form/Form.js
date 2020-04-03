@@ -20,7 +20,8 @@ function Form() {
           let bookInfo = bookData[i].volumeInfo;
           var imageLink = bookInfo.imageLinks
             ? bookInfo.imageLinks.thumbnail
-            : console.log("no image here");
+            : console.log("no image available");
+
           let book = {
             id: bookData[i].id,
             title: bookInfo.title,

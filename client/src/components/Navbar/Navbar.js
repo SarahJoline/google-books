@@ -5,7 +5,7 @@ function Navbar() {
     <div>
       <h1>Google Books</h1>
       <a href="/">Home</a>
-      <a href="/saved">Saved Books</a>
+      <a href="/mysaved">Saved Books</a>
     </div>
   );
 }

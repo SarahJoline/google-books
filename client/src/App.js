@@ -16,7 +16,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path="/" component={home} />
-          <Route exact path="/saved" component={saved} />
+          <Route exact path="/mysaved" component={saved} />
         </Switch>
       </Router>
     </div>
