@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import saved from "./pages/saved";
-import home from "./pages/home";
+import Saved from "./components/Saved/Saved";
+import Form from "./components/Form/Form";
 
 function App() {
   return (
@@ -11,8 +11,8 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <Route exact path="/" component={home} />
-          <Route exact path="/mysaved" component={saved} />>
+          <Route exact path="/" component={Form} />
+          <Route exact path="/mysaved" component={Saved} />>
         </Switch>
       </Router>
     </div>
