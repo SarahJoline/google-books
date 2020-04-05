@@ -7,15 +7,15 @@ import Form from "./components/Form/Form";
 
 function App() {
   return (
-    <div className="App">
-      <Router>
+    <Router>
+      <div className="App">
         <Navbar />
-        <Switch>
-          <Route exact path="/" component={Form} />
-          <Route exact path="/mysaved" component={Saved} />>
-        </Switch>
-      </Router>
-    </div>
+        {/* //<Switch> */}
+        <Route exact path="/" component={Form} />
+        <Route exact path="/mysaved" component={Saved} />
+        {/* //</Switch> */}
+      </div>
+    </Router>
   );
 }
 
