@@ -21,13 +21,11 @@ function Saved() {
       });
     });
   }
-
-  const renderSaved = () => {
-    let savedArr = !books.saved.data ? [] : books.saved.data;
-    console.log(savedArr);
-    return savedArr.map((book, index) => {
-      console.log(book);
-      return (
+  let savedArr = !books.saved.data ? [] : books.saved.data;
+  return (
+    <div>
+      {savedArr.map((book) => (
+        //console.log(book);
         <div className="container" key={book._id}>
           <div className="card">
             <div className="savedBooks">
@@ -47,10 +45,9 @@ function Saved() {
             </div>
           </div>
         </div>
-      );
-    });
-  };
-  return <div>{renderSaved()}</div>;
+      ))}
+    </div>
+  );
 }
 
 export default Saved;
