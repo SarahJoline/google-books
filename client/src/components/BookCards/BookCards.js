@@ -13,7 +13,7 @@ function BookCards(props) {
         <a href={books.link}>More Info</a>
         <button
           className="save-button"
-          onClick={event => {
+          onClick={(event) => {
             saveBook(event, books);
           }}
           id={books.id}
@@ -27,15 +27,15 @@ function BookCards(props) {
 
   function saveBook(event, books) {
     axios
-      .post("/saved", {
+      .post("/api/saved", {
         id: books.id,
         title: books.title,
         authors: books.authors,
         description: books.description,
         link: books.link,
-        image: books.image
+        image: books.image,
       })
-      .catch(err => {
+      .catch((err) => {
         if (err) {
           console.log(err);
         }

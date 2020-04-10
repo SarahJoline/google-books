@@ -25,7 +25,7 @@ mongoose
   .catch((err) => console.log(err));
 
 const apiRoutes = require("./routes/apiRoutes");
-app.use("/", apiRoutes);
+app.use("/api", apiRoutes);
 
 app.listen(PORT, () => {
   console.log(`listening at http://localhost:${PORT}`);
