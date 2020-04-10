@@ -11,8 +11,12 @@ function App() {
       <div className="App">
         <Navbar />
         <Switch>
-          <Route exact path="/" component={Form} />
-          <Route exact path="/mysaved" component={Saved} />
+          <Route exact path="/">
+            <Form />
+          </Route>
+          <Route exact path="/mysaved">
+            <Saved />
+          </Route>
         </Switch>
       </div>
     </Router>
