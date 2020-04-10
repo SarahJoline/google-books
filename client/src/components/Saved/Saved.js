@@ -26,8 +26,7 @@ function Saved() {
 
   return (
     <div>
-      Hello
-      {/* {savedArr !== null ? (
+      {savedArr !== null ? (
         <div className="container">
           {savedArr.map((res) => (
             //console.log(book);
@@ -56,7 +55,7 @@ function Saved() {
         <div>
           <h4>Nothing Yet!</h4>
         </div>
-      )} */}
+      )}
     </div>
   );
 }
