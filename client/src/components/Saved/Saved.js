@@ -22,25 +22,26 @@ function Saved() {
     });
   }
   let savedArr = !books.saved.data ? [] : books.saved.data;
+
   return (
     <div>
       {savedArr !== undefined ? (
-        <div>
-          {savedArr.map((book) => (
+        <div className="container">
+          {savedArr.map((res) => (
             //console.log(book);
-            <div className="container" key={book._id}>
+            <div className="bookCard" key={res._id}>
               <div className="card">
                 <div className="savedBooks">
-                  <h3>{book.title}</h3>
-                  <p>{book.authors}</p>
-                  <a href={book.link}>More Info</a>
+                  <h3>{res.title}</h3>
+                  <p>{res.authors}</p>
+                  <a href={res.link}>More Info</a>
                   <button
                     className="delete"
                     onClick={(event) => {
-                      deleteBook(event, book);
+                      deleteBook(event);
                     }}
-                    id={book._id}
-                    data={book}
+                    id={res._id}
+                    data={res}
                   >
                     Delete
                   </button>
