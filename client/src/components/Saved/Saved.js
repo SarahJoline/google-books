@@ -21,12 +21,13 @@ function Saved() {
       });
     });
   }
+
   let savedArr = !books.saved.data ? [] : books.saved.data;
   console.log(savedArr);
 
   return (
     <div>
-      {savedArr !== null ? (
+      {savedArr !== [] ? (
         <div className="container">
           {savedArr.map((res) => (
             //console.log(book);
