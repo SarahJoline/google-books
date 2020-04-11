@@ -27,7 +27,7 @@ function Saved() {
 
   return (
     <div>
-      {savedArr !== [] ? (
+      {savedArr !== undefined ? (
         <div className="container">
           {savedArr.map((res) => (
             //console.log(book);
