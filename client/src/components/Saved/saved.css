@@ -2,7 +2,7 @@
   width: 960px;
   margin: 40px 0px;
   display: inline-flex;
-  justify-content: left;
+  justify-content: space-evenly;
   overflow: scroll;
   position: absolute;
   top: 50%;
