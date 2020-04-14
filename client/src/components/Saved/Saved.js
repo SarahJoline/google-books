@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./saved.css";
 
 function Saved() {
   let [books, booksModifier] = useState({ saved: [] });
@@ -26,25 +27,30 @@ function Saved() {
   console.log(savedArr);
 
   return savedArr !== undefined ? (
-    <div className="container">
+    <div className="book-container">
       {savedArr.map((res) => (
-        //console.log(book);
-        <div className="bookCard" key={res._id}>
+        <div className="book-card" key={res._id}>
           <div className="card">
             <div className="savedBooks">
-              <h3>{res.title}</h3>
-              <p>{res.authors}</p>
-              <a href={res.link}>More Info</a>
-              <button
-                className="delete"
-                onClick={(event) => {
-                  deleteBook(event);
-                }}
-                id={res._id}
-                data={res}
-              >
-                Delete
-              </button>
+              <div className="image-div">
+                <a href={res.link}>
+                  <img src={res.image} alt={res.title} />
+                </a>
+              </div>
+              {/* <h3>{res.title}</h3>
+              <p>{res.authors}</p> */}
+              <div className="button-div">
+                <button
+                  className="delete"
+                  onClick={(event) => {
+                    deleteBook(event);
+                  }}
+                  id={res._id}
+                  data={res}
+                >
+                  delete
+                </button>
+              </div>
             </div>
           </div>
         </div>

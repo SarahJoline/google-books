@@ -1,0 +1,19 @@
+.form {
+  display: flex;
+  justify-content: center;
+}
+
+input,
+.searchBtn {
+  border: none;
+  outline: none;
+  font-family: "Open Sans Condensed", sans-serif;
+  width: 10rem;
+  height: 10rem;
+  font-size: 1.5rem;
+}
+
+.searchBtn:hover {
+  transition: 0.5s;
+  color: rgb(78, 75, 75);
+}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./form.css";
 import axios from "axios";
 import BookCards from "../BookCards/BookCards";
 
@@ -10,9 +11,9 @@ function Form() {
     axios
       .request({
         method: "GET",
-        url: `https://www.googleapis.com/books/v1/volumes?q=${value.value}`
+        url: `https://www.googleapis.com/books/v1/volumes?q=${value.value}`,
       })
-      .then(response => {
+      .then((response) => {
         let bookData = response.data.items;
         console.log(bookData);
         let bookResults = [];
@@ -28,7 +29,7 @@ function Form() {
             authors: bookInfo.authors,
             description: bookInfo.description,
             link: bookInfo.infoLink,
-            image: imageLink
+            image: imageLink,
           };
           bookResults.push(book);
         }
@@ -41,12 +42,13 @@ function Form() {
         <input
           className="searchInput"
           type="text"
-          onChange={e => {
+          placeholder="find your book"
+          onChange={(e) => {
             modifier({ value: e.target.value });
           }}
         ></input>
         <button className="searchBtn" onClick={handleSearch}>
-          Search
+          search
         </button>
       </div>
       <div>

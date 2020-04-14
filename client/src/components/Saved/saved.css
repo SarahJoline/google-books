@@ -28,24 +28,19 @@
   align-items: center;
 }
 
-img:hover {
-  transition: 0.5s;
-  opacity: 0.7;
-}
-
 .button-div {
   display: flex;
   justify-content: center;
 }
 
-.save-button {
+.delete {
   border: none;
   outline: none;
   font-family: "Open Sans Condensed", sans-serif;
   font-size: 1.5rem;
 }
 
-.save-button:hover {
+.delete:hover {
   transition: 0.5s;
   color: rgb(78, 75, 75);
 }
