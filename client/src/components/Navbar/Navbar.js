@@ -4,7 +4,7 @@ import "./navbar.css";
 function Navbar() {
   return (
     <div className="container">
-      <h1>Google Books</h1>
+      <h1>Book Swap</h1>
       <div className="anchor-div">
         <a href="/">Home </a>|<a href="/mysaved"> Saved Books</a>
       </div>

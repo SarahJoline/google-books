@@ -1,27 +1,31 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const BookSchema = new Schema({
+const BooksSchema = new Schema({
   id: {
-    type: String
+    type: String,
   },
   title: {
-    type: String
+    type: String,
   },
   authors: {
-    type: Array
+    type: Array,
   },
   description: {
-    type: String
+    type: String,
   },
   link: {
-    type: String
+    type: String,
   },
   image: {
-    type: String
-  }
+    type: String,
+  },
+  // to borrow = 1, to lend =0
+  intent: {
+    type: String,
+  },
 });
 
-const Books = mongoose.model("Books", BookSchema);
+const Books = mongoose.model("Books", BooksSchema);
 
 module.exports = Books;

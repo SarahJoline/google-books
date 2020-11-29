@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./bookcards.css";
 
 function BookCards(props) {
+  let [intent, setIntent] = useState(0);
   const books = props.bData;
+
+  function addBooks(event, books) {
+    axios
+      .post("/api/mybooks", {
+        id: books.id,
+        title: books.title,
+        authors: books.authors,
+        description: books.description,
+        link: books.link,
+        image: books.image,
+        intent: intent,
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  }
 
   let bookArray = books.map((books, index) => {
     return (
@@ -20,34 +39,30 @@ function BookCards(props) {
           <button
             className="save-button"
             onClick={(event) => {
-              saveBook(event, books);
+              setIntent("to lend");
+              addBooks(event, books);
             }}
             id={books.id}
             data={books}
           >
-            save book
+            Lend
+          </button>
+          <button
+            className="save-button"
+            onClick={(event) => {
+              setIntent("to borrow");
+              addBooks(event, books);
+            }}
+            id={books.id}
+            data={books}
+          >
+            Borrow
           </button>
         </div>
       </div>
     );
   });
 
-  function saveBook(event, books) {
-    axios
-      .post("/api/saved", {
-        id: books.id,
-        title: books.title,
-        authors: books.authors,
-        description: books.description,
-        link: books.link,
-        image: books.image,
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  }
   return (
     <div className="wrap-container">
       <div className="book-container">{bookArray}</div>

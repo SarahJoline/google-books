@@ -1,0 +1,42 @@
+.booklist {
+  width: 960px;
+  margin: 40px 0px;
+  display: inline-flex;
+  justify-content: space-evenly;
+  overflow: scroll;
+}
+
+/* ::-webkit-scrollbar {
+  display: none;
+}
+
+.book-card {
+  padding-top: 40px;
+}
+
+.book-card:not(:first-child) {
+  padding-left: 90px;
+}
+
+.image-div {
+  height: 250px;
+  display: flex;
+  align-items: center;
+}
+
+.button-div {
+  display: flex;
+  justify-content: center;
+}
+
+.delete {
+  border: none;
+  outline: none;
+  font-family: "Open Sans Condensed", sans-serif;
+  font-size: 1.5rem;
+}
+
+.delete:hover {
+  transition: 0.5s;
+  color: rgb(78, 75, 75);
+} */

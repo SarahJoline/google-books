@@ -1,68 +1,48 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./saved.css";
+import _ from "lodash";
+import Booklists from "../BookLists/BookLists";
 
 function Saved() {
-  let [books, booksModifier] = useState({ saved: [] });
+  let [sortedBooks, setSorted] = useState();
 
   useEffect(() => {
+    getBooks();
+  }, []);
+
+  function getBooks() {
     axios
       .get("/api/allsaved")
       .then((savedBooks) => {
-        booksModifier({ saved: savedBooks });
+        const allBooks = savedBooks.data;
+        const sortBooks = _.groupBy(allBooks, "intent");
+        setSorted(sortBooks);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }
 
   function deleteBook(book) {
     const id = book.target.id;
     axios.delete(`/api/delete/${id}`).then((res) => {
-      axios.get("/api/allsaved").then((savedBooks) => {
-        booksModifier({ saved: savedBooks });
-      });
+      getBooks();
     });
   }
 
-  let savedArr = !books.saved.data ? [] : books.saved.data;
-  console.log(savedArr);
+  const bookLists = [];
 
-  return savedArr !== undefined ? (
-    <div className="book-container">
-      {savedArr.map((res) => (
-        <div className="book-card" key={res._id}>
-          <div className="card">
-            <div className="savedBooks">
-              <div className="image-div">
-                <a href={res.link}>
-                  <img src={res.image} alt={res.title} />
-                </a>
-              </div>
-              {/* <h3>{res.title}</h3>
-              <p>{res.authors}</p> */}
-              <div className="button-div">
-                <button
-                  className="delete"
-                  onClick={(event) => {
-                    deleteBook(event);
-                  }}
-                  id={res._id}
-                  data={res}
-                >
-                  delete
-                </button>
-              </div>
-            </div>
-          </div>
+  for (let intent in sortedBooks) {
+    bookLists.push(
+      <div className="booklist-container" key={intent}>
+        <div className="book-list-div">
+          <h2 className="book-list-name">Books {intent}</h2>
         </div>
-      ))}
-    </div>
-  ) : (
-    <div className="container">
-      <div>
-        <h4>Nothing Yet!</h4>
+        <Booklists listsOfBooks={sortedBooks[intent]} deleteBook={deleteBook} />
       </div>
-    </div>
-  );
+    );
+  }
+
+  return sortedBooks !== undefined ? <div>{bookLists}</div> : <div></div>;
 }
 
 export default Saved;

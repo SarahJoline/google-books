@@ -1,20 +1,28 @@
-.book-container {
-  width: 960px;
+/* .book-container {
+  padding: 0px;
+  margin: 50px 0px;
+} */
+
+.booklist-container {
   margin: 40px 0px;
-  display: inline-flex;
-  justify-content: space-evenly;
+
   overflow: scroll;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
+
+/* .book-list-div {
+  width: 50px;
+  padding: 120px;
+}
+
+.book-list-name {
+  color: blue;
+} 
 
 ::-webkit-scrollbar {
   display: none;
-}
+} 
 
-.book-card {
+ .book-card {
   padding-top: 40px;
 }
 
@@ -43,4 +51,4 @@
 .delete:hover {
   transition: 0.5s;
   color: rgb(78, 75, 75);
-}
+}  */
