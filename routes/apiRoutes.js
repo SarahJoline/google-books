@@ -1,4 +1,7 @@
 const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const exjwt = require("express-jwt");
 const router = express.Router();
 const db = require("../models");
 
@@ -42,7 +45,7 @@ router.delete("/delete/:id", (req, res) => {
 
 // AUTH ROUTES
 
-router.post("/api/log-in", (req, res) => {
+router.post("/log-in", (req, res) => {
   const { email, password } = req.body;
   console.log("User submitted: ", email, password);
 
@@ -88,8 +91,14 @@ router.post("/api/log-in", (req, res) => {
   });
 });
 
-router.post("/api/signup", async (req, res) => {
-  const { email, password } = req.body;
+router.get("/users", (req, res) => {
+  db.User.find().then((users) => {
+    res.json(users);
+  });
+});
+
+router.post("/signup", async (req, res) => {
+  const { email, password, name } = req.body;
 
   // First check if user exists
   const existingUser = await db.User.findOne({
@@ -106,7 +115,7 @@ router.post("/api/signup", async (req, res) => {
     });
   }
 
-  console.log("CONTINUEING OUTSIDE OF existing user");
+  console.log("CONTINUING OUTSIDE OF existing user");
 
   const saltRounds = 10;
 
@@ -114,6 +123,7 @@ router.post("/api/signup", async (req, res) => {
     db.User.create({
       email: email,
       password: hash,
+      name: name,
     }).then((result) => {
       res.json({ status: "success", user: result });
     });
