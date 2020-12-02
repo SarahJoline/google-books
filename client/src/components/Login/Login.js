@@ -11,7 +11,13 @@ function Login() {
         password: login.password,
       })
       .then((res) => {
+        console.log("login working");
         console.log(res);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
       });
   }
 

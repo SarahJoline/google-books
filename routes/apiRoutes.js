@@ -50,7 +50,7 @@ router.post("/log-in", (req, res) => {
   console.log("User submitted: ", email, password);
 
   db.User.findOne({
-    where: { email: email },
+    email: email,
   }).then((user) => {
     console.log("User Found: ", user);
 
@@ -99,10 +99,11 @@ router.get("/users", (req, res) => {
 
 router.post("/signup", async (req, res) => {
   const { email, password, name } = req.body;
+  console.log(email, password, name);
 
   // First check if user exists
   const existingUser = await db.User.findOne({
-    where: { email },
+    email,
   });
 
   console.log("existing user", existingUser);

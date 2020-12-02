@@ -16,7 +16,13 @@ function Register() {
         password: register.password,
       })
       .then((res) => {
+        console.log("register working");
         console.log(res);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
       });
   }
 
@@ -50,7 +56,7 @@ function Register() {
             registerUser();
           }}
         >
-          Login
+          Begin!
         </button>
       </div>
     </div>
