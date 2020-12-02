@@ -3,7 +3,7 @@
   justify-content: center;
 }
 
-input,
+.searchInput,
 .searchBtn {
   border: none;
   outline: none;
