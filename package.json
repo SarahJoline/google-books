@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/SarahJoline/google-books#readme",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.5.0",
     "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.1.0",

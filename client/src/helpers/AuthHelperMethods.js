@@ -4,6 +4,8 @@ const AuthHelperMethods = {};
 
 // Initializing important variables
 AuthHelperMethods.login = (email, password) => {
+  console.log("LOGIN!");
+
   // Get a token from api server using the fetch api
   return AuthHelperMethods.fetch(`/log-in`, {
     method: "POST",
@@ -12,6 +14,7 @@ AuthHelperMethods.login = (email, password) => {
       password,
     }),
   }).then((res) => {
+    console.log("THEN!");
     AuthHelperMethods.setToken(res.token); // Setting the token in localStorage
 
     return Promise.resolve(res);
@@ -50,6 +53,7 @@ AuthHelperMethods.isTokenExpired = (token) => {
   Will allow you to set and get a token when needed.
 */
 AuthHelperMethods.setToken = (idToken) => {
+  console.log("setting id_token:", idToken);
   // Saves user token to localStorage
   localStorage.setItem("id_token", idToken);
 };

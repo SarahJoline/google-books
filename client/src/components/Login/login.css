@@ -1,0 +1,11 @@
+.loginFormConatiner {
+  text-align: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 600px;
+  height: 400px;
+}

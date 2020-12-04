@@ -14,6 +14,7 @@ function Form() {
         url: `https://www.googleapis.com/books/v1/volumes?q=${value.value}`,
       })
       .then((response) => {
+        console.log(response);
         let bookData = response.data.items;
         console.log(bookData);
         let bookResults = [];

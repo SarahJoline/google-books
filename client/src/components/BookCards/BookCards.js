@@ -3,7 +3,7 @@ import axios from "axios";
 import "./bookcards.css";
 
 function BookCards(props) {
-  let [intent, setIntent] = useState(0);
+  let [intent, setIntent] = useState();
   const books = props.bData;
 
   function addBooks(event, books) {

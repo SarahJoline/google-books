@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./login.css";
+import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 
 function Login() {
   let [login, setLogin] = useState({ email: " ", password: " " });
@@ -13,6 +15,8 @@ function Login() {
       .then((res) => {
         console.log("login working");
         console.log(res);
+        AuthHelperMethods.setToken(res.data.token);
+        window.location.href = "/mysaved";
       })
       .catch((err) => {
         if (err) {
@@ -23,7 +27,8 @@ function Login() {
 
   return (
     <div className="loginFormConatiner">
-      <div className="loginform">
+      <h3>Log in</h3>
+      <div className="loginForm">
         <input
           className="emailInput"
           placeholder="email"
@@ -33,6 +38,7 @@ function Login() {
         />
         <input
           className="passwordInput"
+          type="password"
           placeholder="password"
           onChange={(e) => {
             setLogin({ ...login, password: e.target.value });
@@ -46,6 +52,7 @@ function Login() {
         >
           Login
         </button>
+        <a href="/register">Make an account</a>
       </div>
     </div>
   );

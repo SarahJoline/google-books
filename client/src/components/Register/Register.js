@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import axios from "axios";
+import "./register.css";
 
 function Register() {
   let [register, setRegister] = useState({
@@ -16,8 +18,7 @@ function Register() {
         password: register.password,
       })
       .then((res) => {
-        console.log("register working");
-        console.log(res);
+        window.location.href = "/";
       })
       .catch((err) => {
         if (err) {
@@ -28,6 +29,7 @@ function Register() {
 
   return (
     <div className="registerFormConatiner">
+      <h3>Register</h3>
       <div className="registerform">
         <input
           className="registerEmail"
@@ -45,6 +47,7 @@ function Register() {
         />
         <input
           className="registerPassword"
+          type="password"
           placeholder="password"
           onChange={(e) => {
             setRegister({ ...register, password: e.target.value });

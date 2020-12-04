@@ -13,11 +13,11 @@ function App() {
       <div className="App">
         <Navbar />
         <Switch>
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/" component={Login} />
 
           <Route exact path="/register" component={Register} />
 
-          <Route exact path="/" component={Form} />
+          <Route exact path="/seachbooks" component={Form} />
 
           <Route exact path="/mysaved" component={Saved} />
         </Switch>

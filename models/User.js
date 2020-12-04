@@ -11,6 +11,7 @@ const UserSchema = new Schema({
   name: {
     type: String,
   },
+  books: [],
 });
 
 const User = mongoose.model("User", UserSchema);
