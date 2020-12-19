@@ -1,51 +1,32 @@
 .book-container {
-  width: 960px;
-  margin: 40px 0px;
-  display: inline-flex;
-  justify-content: left;
-  overflow: scroll;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-::-webkit-scrollbar {
-  display: none;
+  display: flex;
+  flex-direction: row;
+  overflow: none;
+  flex-wrap: wrap;
 }
 
 .book-card {
-  padding-top: 40px;
+  border-radius: 2px;
+  width: 161px;
+  height: 210px;
+  margin: 10px;
+  background-color: #1e262b;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.book-card:not(:first-child) {
-  padding-left: 90px;
+.book-image {
+  width: 106px;
+  height: 155px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.image-div {
-  height: 250px;
-  display: flex;
-  align-items: center;
-}
-
-img:hover {
-  transition: 0.5s;
-  opacity: 0.7;
-}
-
-.button-div {
-  display: flex;
-  justify-content: center;
-}
-
-.save-button {
+.lend-button {
+  width: 161px;
+  height: 55px;
+  color: #1f9af3;
+  font-size: 17px;
+  background-color: white;
   border: none;
-  outline: none;
-  font-family: "Open Sans Condensed", sans-serif;
-  font-size: 1.5rem;
-}
-
-.save-button:hover {
-  transition: 0.5s;
-  color: rgb(78, 75, 75);
 }

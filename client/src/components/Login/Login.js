@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import axios from "axios";
 import "./login.css";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 
-function Login() {
+function Login(props) {
   let [login, setLogin] = useState({ email: " ", password: " " });
 
   function sendLogin() {
@@ -14,9 +15,9 @@ function Login() {
       })
       .then((res) => {
         console.log("login working");
-        console.log(res);
         AuthHelperMethods.setToken(res.data.token);
-        window.location.href = "/mysaved";
+        window.location.href = "/searchbooks";
+        // getBooks();
       })
       .catch((err) => {
         if (err) {
@@ -27,7 +28,6 @@ function Login() {
 
   return (
     <div className="loginFormConatiner">
-      <h3>Log in</h3>
       <div className="loginForm">
         <input
           className="emailInput"
@@ -52,10 +52,19 @@ function Login() {
         >
           Login
         </button>
-        <a href="/register">Make an account</a>
       </div>
     </div>
   );
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadedBooks: (data) => dispatch({ type: "BOOKS_LOADED", data: data }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

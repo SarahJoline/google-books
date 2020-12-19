@@ -1,28 +1,31 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
+
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import Saved from "./components/Saved/Saved";
-import Form from "./components/Form/Form";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
+import Borrow from "./components/Borrow/Borrow";
+import Lend from "./components/Lend/Lend";
+
+import store from "./redux";
+
+// import KissSarahButton from "./components/KissSarahButton";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={Login} />
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <Navbar />
+          {/* <KissSarahButton /> */}
+          <Switch>
+            <Route exact path="/lend" component={Lend} />
 
-          <Route exact path="/register" component={Register} />
-
-          <Route exact path="/seachbooks" component={Form} />
-
-          <Route exact path="/mysaved" component={Saved} />
-        </Switch>
-      </div>
-    </Router>
+            <Route exact path="/borrow" component={Borrow} />
+          </Switch>
+        </div>
+      </Router>
+    </Provider>
   );
 }
 

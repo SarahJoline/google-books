@@ -9,3 +9,10 @@
   width: 600px;
   height: 400px;
 }
+
+input {
+  border: 1px solid#49c39f;
+  border-radius: 10px;
+  width: 421px;
+  height: 49px;
+}

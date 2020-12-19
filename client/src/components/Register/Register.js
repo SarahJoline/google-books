@@ -18,7 +18,8 @@ function Register() {
         password: register.password,
       })
       .then((res) => {
-        window.location.href = "/";
+        AuthHelperMethods.setToken(res.data.token);
+        window.location.href = "/searchbooks";
       })
       .catch((err) => {
         if (err) {

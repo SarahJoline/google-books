@@ -20,12 +20,8 @@ const BooksSchema = new Schema({
   image: {
     type: String,
   },
-  // to borrow = 1, to lend =0
-  intent: {
-    type: String,
-  },
 });
 
-const Books = mongoose.model("Books", BooksSchema);
+const Book = mongoose.model("Book", BooksSchema);
 
-module.exports = Books;
+module.exports = Book;

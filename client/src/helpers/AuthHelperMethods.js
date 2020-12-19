@@ -1,3 +1,4 @@
+import Axios from "axios";
 import decode from "jwt-decode";
 
 const AuthHelperMethods = {};
@@ -75,7 +76,6 @@ AuthHelperMethods.decodeToken = () => {
   let answer = decode(AuthHelperMethods.getToken());
 
   console.log("Recieved answer!");
-
   return answer;
 };
 
@@ -90,7 +90,7 @@ AuthHelperMethods.fetch = (url, options) => {
   // Setting Authorization header
   // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
   if (AuthHelperMethods.loggedIn()) {
-    headers["Authorization"] = "Bearer " + AuthHelperMethods.getToken();
+    headers["Authorization"] = AuthHelperMethods.getToken();
   }
 
   return fetch(url, {
@@ -102,7 +102,7 @@ AuthHelperMethods.fetch = (url, options) => {
 };
 
 AuthHelperMethods._checkStatus = (response) => {
-  // raises an error in case response status is not a success
+  //raises an error in case response status is not a success
   if (response.status >= 200 && response.status < 300) {
     // Success status lies between 200 to 300
     return response;

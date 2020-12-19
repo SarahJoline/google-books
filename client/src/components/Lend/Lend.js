@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import "./form.css";
+import "./lend.css";
 import axios from "axios";
 import BookCards from "../BookCards/BookCards";
+import BookLists from "../BookLists/BookLists";
 
-function Form() {
+function Lend() {
   const [value, modifier] = useState({ value: " " });
   let [books, booksModifier] = useState([]);
 
@@ -11,7 +12,7 @@ function Form() {
     axios
       .request({
         method: "GET",
-        url: `https://www.googleapis.com/books/v1/volumes?q=${value.value}`,
+        url: `https://www.googleapis.com/books/v1/volumes?q=${value.value}&startIndex=0&max-results=40`,
       })
       .then((response) => {
         console.log(response);
@@ -38,25 +39,31 @@ function Form() {
       });
   }
   return (
-    <div>
+    <div className="lending-page">
+      <div className="lending-books-div">
+        <BookLists />
+      </div>
       <div className="form">
+        <h3>Have additional books to lend?</h3>
         <input
           className="searchInput"
           type="text"
-          placeholder="find your book"
+          placeholder="Search for books to lend"
           onChange={(e) => {
             modifier({ value: e.target.value });
           }}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
         ></input>
-        <button className="searchBtn" onClick={handleSearch}>
-          search
-        </button>
-      </div>
-      <div>
-        <BookCards bData={books} />
+        <div className="render-books">
+          <BookCards bData={books} />
+        </div>
       </div>
     </div>
   );
 }
 
-export default Form;
+export default Lend;

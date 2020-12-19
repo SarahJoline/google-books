@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import "./bookcards.css";
 
 function BookCards(props) {
@@ -7,8 +7,9 @@ function BookCards(props) {
   const books = props.bData;
 
   function addBooks(event, books) {
-    axios
-      .post("/api/mybooks", {
+    AuthHelperMethods.fetch(`/api/savebook/${books.id}`, {
+      method: "POST",
+      body: JSON.stringify({
         id: books.id,
         title: books.title,
         authors: books.authors,
@@ -16,28 +17,22 @@ function BookCards(props) {
         link: books.link,
         image: books.image,
         intent: intent,
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+      }),
+    }).catch((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
   }
 
   let bookArray = books.map((books, index) => {
     return (
       <div className="book-card" key={books.id}>
-        <div className="image-div">
-          <a href={books.link}>
-            <img src={books.image} alt={books.title} />
-          </a>
-        </div>
+        <img className="book-image" src={books.image} alt={books.title} />
 
-        {/* <h3>{books.title}</h3>
-        <p>{books.authors}</p> */}
         <div className="button-div">
           <button
-            className="save-button"
+            className="lend-button"
             onClick={(event) => {
               setIntent("to lend");
               addBooks(event, books);
@@ -45,29 +40,14 @@ function BookCards(props) {
             id={books.id}
             data={books}
           >
-            Lend
-          </button>
-          <button
-            className="save-button"
-            onClick={(event) => {
-              setIntent("to borrow");
-              addBooks(event, books);
-            }}
-            id={books.id}
-            data={books}
-          >
-            Borrow
+            LEND
           </button>
         </div>
       </div>
     );
   });
 
-  return (
-    <div className="wrap-container">
-      <div className="book-container">{bookArray}</div>
-    </div>
-  );
+  return <div className="book-container">{bookArray}</div>;
 }
 
 export default BookCards;

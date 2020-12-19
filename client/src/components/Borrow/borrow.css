@@ -1,0 +1,20 @@
+.borrow-page {
+  padding-top: 40px;
+  padding-left: 40px;
+}
+
+.searchBorrow {
+  font-size: 20px;
+  padding-left: 15px;
+}
+
+.available-books {
+  padding-top: 30px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.location {
+  padding-top: 15px;
+  font-size: 15px;
+}

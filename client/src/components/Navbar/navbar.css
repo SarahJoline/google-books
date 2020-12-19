@@ -1,20 +1,50 @@
 .container {
   display: flex;
   justify-content: space-between;
-  margin: 0px 50px 0px 50px;
-}
-
-.anchor-div {
-  display: flex;
   align-items: center;
+  height: 75px;
+  border-bottom: 1px solid #e5e5e5;
 }
 
-a {
-  text-decoration: none;
-  color: black;
+.app-name {
+  font-size: 30px;
+  font-weight: bold;
+  margin-left: 40px;
 }
 
-a:hover {
-  transition: 0.5s;
-  color: rgb(78, 75, 75);
+.btn-div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.loginBtn,
+.registerBtn,
+.logoutBtn,
+.borrowBtn,
+.lendBtn {
+  background-color: #49c39f;
+  width: 127px;
+  height: 42px;
+  color: white;
+  border-radius: 3px;
+  border: none;
+  font-size: 17px;
+  margin: 0px 10px;
+}
+
+.user-info {
+  margin-left: 20px;
+}
+
+.user-email {
+  font-size: 16px;
+  float: right;
+  padding-bottom: 3px;
+}
+
+.user-book-num {
+  color: #a45faa;
+  font-size: 14px;
 }

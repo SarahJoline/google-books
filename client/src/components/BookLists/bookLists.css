@@ -1,42 +1,49 @@
 .booklist {
-  width: 960px;
-  margin: 40px 0px;
-  display: inline-flex;
-  justify-content: space-evenly;
-  overflow: scroll;
-}
-
-/* ::-webkit-scrollbar {
-  display: none;
-}
-
-.book-card {
-  padding-top: 40px;
-}
-
-.book-card:not(:first-child) {
-  padding-left: 90px;
-}
-
-.image-div {
-  height: 250px;
+  width: 380px;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.button-div {
+.lending {
+  font: bold 25px "Roboto";
+  padding: 20px 0px;
+}
+
+.lending-number {
+  font: bold 14px #777777;
+}
+
+.lend-book-card {
+  width: 270px;
+  height: 40px;
+  background-color: white;
+  margin-top: 20px;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 5px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.delete {
-  border: none;
-  outline: none;
-  font-family: "Open Sans Condensed", sans-serif;
-  font-size: 1.5rem;
+.book-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
-.delete:hover {
-  transition: 0.5s;
-  color: rgb(78, 75, 75);
-} */
+.book-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.book-author {
+  font-size: 16px;
+}
+
+.trash-btn {
+  width: 20px;
+  height: 25px;
+  padding: 10px;
+}
