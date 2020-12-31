@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import axios from "axios";
 import "./login.css";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
@@ -16,8 +15,7 @@ function Login(props) {
       .then((res) => {
         console.log("login working");
         AuthHelperMethods.setToken(res.data.token);
-        window.location.href = "/searchbooks";
-        // getBooks();
+        window.location.href = "/borrow";
       })
       .catch((err) => {
         if (err) {
@@ -57,14 +55,4 @@ function Login(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {};
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadedBooks: (data) => dispatch({ type: "BOOKS_LOADED", data: data }),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

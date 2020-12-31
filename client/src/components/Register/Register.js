@@ -19,7 +19,7 @@ function Register() {
       })
       .then((res) => {
         AuthHelperMethods.setToken(res.data.token);
-        window.location.href = "/searchbooks";
+        window.location.href = "/borrow";
       })
       .catch((err) => {
         if (err) {

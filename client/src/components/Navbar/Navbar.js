@@ -35,24 +35,31 @@ function BorrowButton() {
 function LoggedInContent() {
   const [userEmail, setUser] = useState();
   const [open, setOpen] = useState(false);
+  const [lending, isLending] = useState(false);
 
   useEffect(() => {
-    getInfoBitch();
+    getUserInfo();
+    manageButtons();
   }, []);
 
   function logout() {
     AuthHelperMethods.logout("id_token");
-    window.location.href = "/";
+    window.location.href = "/borrow";
   }
 
-  function getInfoBitch() {
-    const bitchInfo = AuthHelperMethods.decodeToken();
-    setUser(bitchInfo.email);
+  function getUserInfo() {
+    const UserInfo = AuthHelperMethods.decodeToken();
+    setUser(UserInfo.email);
   }
 
+  function manageButtons() {
+    if (window.location.href.indexOf("lend") > -1) {
+      isLending(true);
+    }
+  }
   return (
     <div className="btn-div">
-      <LendButton />
+      {lending ? <BorrowButton /> : <LendButton />}
       <div className="user-info">
         <div
           className="user-email"
@@ -115,7 +122,7 @@ function LoggedOutContent() {
 
 function Navbar() {
   const loggedIn = AuthHelperMethods.loggedIn();
-  console.log(loggedIn);
+
   return (
     <div className="container">
       <div className="app-name">Book Swap</div>

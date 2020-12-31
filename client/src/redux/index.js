@@ -1,23 +1,6 @@
 import { createStore, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-function DonReducer(state = { kissCounter: 0, hugCounter: 0 }, action) {
-  switch (action.type) {
-    case "KISS_SARAH":
-      return {
-        ...state,
-        kissCounter: (state.kissCounter = state.kissCounter + action.numKisses),
-      };
-    case "HUG_SARAH":
-      return {
-        ...state,
-        hugCounter: state.hugCounter++,
-      };
-    default:
-      return state;
-  }
-}
-
 // API reducers
 const initialState = {
   loading: false,
@@ -54,23 +37,24 @@ function BooksReducer(state = initialState, action) {
   }
 }
 
-function UsersReducer(state = initialState, action) {
+function UserBooksReducer(state = initialState, action) {
   switch (action.type) {
-    case "USERS_LOADING":
+    case "USERBOOKS_LOADING":
       return {
         ...state,
         loading: true,
         loaded: false,
         error: null,
       };
-    case "USERS_LOADED":
+    case "USERBOOKS_LOADED":
       return {
         ...state,
         loading: false,
         loaded: true,
         error: null,
+        data: action.data,
       };
-    case "USERS_ERROR":
+    case "USERBOOKS_ERROR":
       return {
         ...state,
         loading: false,
@@ -84,9 +68,8 @@ function UsersReducer(state = initialState, action) {
 
 // Combine the reducers
 let combinedReducer = combineReducers({
-  don: DonReducer,
   books: BooksReducer,
-  users: UsersReducer,
+  userBooks: UserBooksReducer,
 });
 
 let store = createStore(combinedReducer, composeWithDevTools());

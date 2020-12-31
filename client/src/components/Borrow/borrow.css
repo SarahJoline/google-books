@@ -3,7 +3,7 @@
   padding-left: 40px;
 }
 
-.searchBorrow {
+.searchTerm {
   font-size: 20px;
   padding-left: 15px;
 }
@@ -17,4 +17,10 @@
 .location {
   padding-top: 15px;
   font-size: 15px;
+}
+
+.borrow-books {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }

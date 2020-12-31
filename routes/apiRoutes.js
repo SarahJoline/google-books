@@ -8,7 +8,6 @@ const exjwt = require("express-jwt");
 const router = express.Router();
 const db = require("../models");
 const { sumBy } = require("lodash");
-const { Book } = require("../models");
 
 async function verify(req, res, next) {
   console.log("VERIFY!");
@@ -30,10 +29,9 @@ async function verify(req, res, next) {
   }
 }
 
-router.get("/checkbooks", (req, res) => {
+router.get("/borrow-books", (req, res) => {
   db.Book.find()
     .then((data) => {
-      console.log(data);
       res.json(data);
     })
     .catch((err) => {
@@ -44,7 +42,6 @@ router.get("/checkbooks", (req, res) => {
 router.get("/checkusers", (req, res) => {
   db.User.find()
     .then((data) => {
-      console.log(data);
       res.json(data);
     })
     .catch((err) => {
@@ -52,12 +49,9 @@ router.get("/checkusers", (req, res) => {
     });
 });
 
-router.get("/borrow-books", verify, (req, res) => {
-  console.log("user: ", req.user);
-
-  db.User.findOne({ email: req.user.email })
+router.get("/getuserbooks", (req, res) => {
+  db.UserBook.find()
     .then((data) => {
-      console.log(data);
       res.json(data);
     })
     .catch((err) => {
@@ -66,11 +60,11 @@ router.get("/borrow-books", verify, (req, res) => {
 });
 
 router.get("/borrow-books/:title", (req, res) => {
-  console.log("user: ", req.user);
+  console.log("user: ", req.params.title);
 
-  db.Book.findOne({ title: req.user.title })
+  db.Book.find({ title: req.params.title })
     .then((data) => {
-      console.log(data);
+      console.log(data._id);
       res.json(data);
     })
     .catch((err) => {
@@ -78,84 +72,15 @@ router.get("/borrow-books/:title", (req, res) => {
     });
 });
 
-router.get("/borrow-books/:author", (req, res) => {
-  console.log("user: ", req.user);
-
-  db.Book.findOne({ author: req.user.author })
-    .then((data) => {
-      console.log(data);
-      res.json(data);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-});
-
-router.post("/savebook/:id", verify, async (req, res) => {
-  console.log("HI SARAH!");
-
-  let userID = req.user.userID;
-
-  console.log("userID", userID);
-
+router.post("/lendbook/:id", verify, async (req, res) => {
   let bookID = req.body.id;
-
-  console.log("body", req.body);
-  console.log("bookID", bookID);
+  let userID = req.user.userID;
 
   let book = await db.Book.findOne({ id: bookID });
 
-  console.log("lookedup book");
-  console.log(book);
-
+  let newBook;
   if (!book) {
-    if (req.body.intent === "to lend") {
-      try {
-        console.log("CREATING");
-        await db.Book.create({
-          id: bookID,
-          title: req.body.title,
-          authors: req.body.authors,
-          description: req.body.description,
-          link: req.body.link,
-          image: req.body.image,
-          usersLending: userID,
-        });
-
-        console.log("FINDING");
-        let doc = await db.User.findOneAndUpdate(
-          { _id: userID },
-          { $push: { lend: bookID } }
-        );
-
-        doc.save();
-        console.log("DOC:");
-        console.log(doc);
-
-        console.log("RETURNING");
-        return res.json(200, doc);
-      } catch (e) {
-        console.log("ERROR: ");
-        console.log(e);
-        return res.status(500).send("Error, check console logs");
-      }
-
-      // await db.User.findOneAndUpdate(
-      //   { _id: userID },
-      //   { $push: { lend: bookID } },
-      //   function (err, user, books) {
-      //     if (err) {
-      //       console.log("ERROR:");
-      //       console.log(err);
-
-      //       return res.status(err);
-      //     } else {
-      //       console.log("RESPONDING!");
-      //       return res.json(200, { user: user, books: books });
-      //     }
-      //   }
-      // );
-    } else if (req.body.intent === "to borrow") {
+    try {
       await db.Book.create({
         id: bookID,
         title: req.body.title,
@@ -163,83 +88,26 @@ router.post("/savebook/:id", verify, async (req, res) => {
         description: req.body.description,
         link: req.body.link,
         image: req.body.image,
-        usersBorrowing: userID,
+      }).then((res) => {
+        newBook = res._id;
       });
-
-      await db.User.findOneAndUpdate(
-        { _id: userID },
-        { $push: { borrow: bookID } },
-        function (err, user, books) {
-          if (err) {
-            console.log("ERROR:");
-            console.log(err);
-
-            return res.status(err);
-          } else {
-            return res.json(200, { user: user, books: books });
-          }
-        }
-      );
+    } catch (e) {
+      console.log("ERROR: ");
+      console.log(e);
+      return res.status(500).send("Error, check console logs");
     }
   } else {
-    if (req.body.intent === "to borrow") {
-      await db.Book.findOneAndUpdate(
-        { id: bookID },
-        { $push: { usersBorrowing: userID } },
-        function (err, user, books) {
-          if (err) {
-            console.log("ERROR:");
-            console.log(err);
-
-            return res.status(err);
-          } else {
-            return res.json(200, { user: user, books: books });
-          }
-        }
-      );
-      await db.User.findOneAndUpdate(
-        { _id: userID },
-        { $push: { borrow: bookID } },
-        function (err, user, books) {
-          if (err) {
-            console.log("ERROR:");
-
-            console.log(err);
-            return res.status(err);
-          } else {
-            return res.json(200, { user: user, books: books });
-          }
-        }
-      );
-    } else if (req.body.intent === "to lend") {
-      await db.Book.findOneAndUpdate(
-        { id: bookID },
-        { $push: { usersLending: userID } },
-        function (err, user, books) {
-          if (err) {
-            console.log("ERROR:");
-            console.log(err);
-            return res.status(err);
-          } else {
-            return res.json(200, { user: user, books: books });
-          }
-        }
-      );
-      await db.User.findOneAndUpdate(
-        { _id: userID },
-        { $push: { lend: bookID } },
-        function (err, user, books) {
-          if (err) {
-            console.log("ERROR:");
-            console.log(err);
-            return res.status(err);
-          } else {
-            return res.json(200, { user: user, books: books });
-          }
-        }
-      );
-    }
+    newBook = book._id;
   }
+
+  db.UserBook.create({
+    lenderID: userID,
+    bookID: newBook,
+  }).catch((err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
 });
 
 router.delete("/delete/:id", (req, res) => {
@@ -278,7 +146,7 @@ router.post("/log-in", (req, res) => {
         let token = jwt.sign(
           {
             email: user.email,
-            userID: result._id,
+            userID: user._id,
           },
           TOKEN,
           { expiresIn: 129600 }

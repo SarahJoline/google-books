@@ -1,44 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import { connect } from "react-redux";
 
 import "./bookLists.css";
 
 function BookList(props) {
-  const listData = props.listsOfBooks;
-  const deleteBook = props.deleteBook;
-
-  //   return listData !== undefined ? (
-  //     <div className="booklist">
-  //       {props.numberOfSarahKisses}
-  //       {listData.map((res) => (
-  //         <div className="booklist-card" key={res._id}>
-  //           <div className="book-div">
-  //             <div className="book-title">Burial Rites</div>
-  //             <div className="book-author">Hannah Kent</div>
-  //           </div>
-  //           <div className="button-div">
-  //             <button
-  //               className="delete-btn"
-  //               onClick={(event) => {
-  //                 deleteBook(event, res._id);
-  //               }}
-  //               id={res._id}
-  //               data={res}
-  //             >
-  //               delete
-  //             </button>
-  //           </div>
-  //         </div>
-  //       ))}
-  //     </div>
-  //   ) : (
-  //     <div className="container">
-  //       <div>
-  //         <h4>Nothing Yet!</h4>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  let [myBooks, setMyBooks] = useState();
+  console.log(props);
 
   return (
     <div className="booklist">
@@ -52,7 +20,14 @@ function BookList(props) {
               <div className="book-author">Hannah Kent</div>
             </div>
             <div className="button-div">
-              <img className="trash-btn" src="./Group.png" alt="X" />
+              <img
+                className="trash-btn"
+                src="./Group.png"
+                alt="X"
+                onClick={(event) => {
+                  console.log("yo bitch");
+                }}
+              />
             </div>
           </div>
           <div className="lend-book-card">
@@ -78,13 +53,22 @@ function BookList(props) {
     </div>
   );
 }
-export default BookList;
 
-// Access part of the redux store from this component!
-// const mapStateToProps = (state) => {
-//   return {
-//     numberOfSarahKisses: state.don.kissCounter,
-//   };
-// };
+// //reading out of the redux state into the component's props
+const mapStateToProps = (state) => {
+  return {
+    books: state.books.data,
+    userBooks: state.userBooks.data,
+  };
+};
 
-// export default connect(mapStateToProps)(BookList);
+//writing
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadedBooks: (data) => dispatch({ type: "BOOKS_LOADED", data: data }),
+    loadedUserBooks: (data) =>
+      dispatch({ type: "USERBOOKS_LOADED", data: data }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookList);
