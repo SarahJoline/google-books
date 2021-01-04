@@ -66,10 +66,40 @@ function UserBooksReducer(state = initialState, action) {
   }
 }
 
+function JoinedBooksReducer(state = initialState, action) {
+  switch (action.type) {
+    case "JOINED_LOADING":
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        error: null,
+      };
+    case "JOINED_LOADED":
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        error: null,
+        data: action.data,
+      };
+    case "JOINED_ERROR":
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error: action.error,
+      };
+    default:
+      return state;
+  }
+}
+
 // Combine the reducers
 let combinedReducer = combineReducers({
   books: BooksReducer,
   userBooks: UserBooksReducer,
+  joinedBooks: JoinedBooksReducer,
 });
 
 let store = createStore(combinedReducer, composeWithDevTools());

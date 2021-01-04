@@ -70,7 +70,7 @@ function LoggedInContent() {
           {userEmail}
         </div>
         <div className="user-book-num">
-          <img src="/assets/Vector.svg" />
+          <img src="/assets/Vector.svg" alt="X" />
           LENDING 23 BOOKS
         </div>
         <Menu id="logout-menu" open={open} onClose={() => setOpen(false)}>

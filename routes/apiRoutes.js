@@ -59,6 +59,21 @@ router.get("/getuserbooks", (req, res) => {
     });
 });
 
+router.patch("/postborrow/:_id", verify, (req, res) => {
+  console.log(req.user.userID);
+
+  db.UserBook.findOneAndUpdate(
+    { _id: req.params._id },
+    { $set: { borrowerID: req.user.userID } }
+  )
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
 router.get("/borrow-books/:title", (req, res) => {
   console.log("user: ", req.params.title);
 
