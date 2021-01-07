@@ -29,7 +29,7 @@ async function verify(req, res, next) {
   }
 }
 
-router.get("/borrow-books", (req, res) => {
+router.get("/books", (req, res) => {
   db.Book.find()
     .then((data) => {
       res.json(data);
@@ -49,7 +49,7 @@ router.get("/checkusers", (req, res) => {
     });
 });
 
-router.get("/getuserbooks", (req, res) => {
+router.get("/userbooks", (req, res) => {
   db.UserBook.find()
     .then((data) => {
       res.json(data);
@@ -59,7 +59,18 @@ router.get("/getuserbooks", (req, res) => {
     });
 });
 
-router.patch("/postborrow/:_id", verify, (req, res) => {
+router.delete("/userbooks/delete/:_id", (req, res) => {
+  console.log(req);
+  db.UserBook.findOneAndDelete({ _id: req.params._id })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+router.patch("/userbooks/borrow/:_id", verify, (req, res) => {
   console.log(req.user.userID);
 
   db.UserBook.findOneAndUpdate(
@@ -74,7 +85,7 @@ router.patch("/postborrow/:_id", verify, (req, res) => {
     });
 });
 
-router.get("/borrow-books/:title", (req, res) => {
+router.get("/books/:title", (req, res) => {
   console.log("user: ", req.params.title);
 
   db.Book.find({ title: req.params.title })
@@ -87,7 +98,7 @@ router.get("/borrow-books/:title", (req, res) => {
     });
 });
 
-router.post("/lendbook/:id", verify, async (req, res) => {
+router.post("/books/lend/:id", verify, async (req, res) => {
   let bookID = req.body.id;
   let userID = req.user.userID;
 
@@ -125,7 +136,7 @@ router.post("/lendbook/:id", verify, async (req, res) => {
   });
 });
 
-router.delete("/delete/:id", (req, res) => {
+router.delete("/books/delete/:id", (req, res) => {
   db.Book.findByIdAndDelete(req.params.id)
     .then((book) => {
       res.json(book);
@@ -139,13 +150,10 @@ router.delete("/delete/:id", (req, res) => {
 
 router.post("/log-in", (req, res) => {
   const { email, password } = req.body;
-  console.log("User submitted: ", email, password);
 
   db.User.findOne({
     email: email,
   }).then((user) => {
-    console.log("User Found: ", user);
-
     if (user === null) {
       res.status(401).json({
         sucess: false,

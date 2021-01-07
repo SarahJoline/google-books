@@ -30,7 +30,6 @@ function Register() {
 
   return (
     <div className="registerFormConatiner">
-      <h3>Register</h3>
       <div className="registerform">
         <input
           className="registerEmail"

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./lend.css";
+import { connect } from "react-redux";
 import axios from "axios";
 import BookCards from "../BookCards/BookCards";
 import BookLists from "../BookLists/BookLists";
 
-function Lend() {
+function Lend(props) {
   const [value, modifier] = useState({ value: " " });
   let [books, booksModifier] = useState([]);
 
@@ -66,4 +67,22 @@ function Lend() {
   );
 }
 
-export default Lend;
+const mapStateToProps = (state) => {
+  return {
+    books: state.books.data,
+    userBooks: state.userBooks.data,
+    joinedBooks: state.joinedBooks.data,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadedBooks: (data) => dispatch({ type: "BOOKS_LOADED", data: data }),
+    loadedUserBooks: (data) =>
+      dispatch({ type: "USERBOOKS_LOADED", data: data }),
+    loadedJoinedBooks: (data) =>
+      dispatch({ type: "JOINED_LOADED", data: data }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lend);

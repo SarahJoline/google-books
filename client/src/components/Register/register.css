@@ -1,11 +1,9 @@
-.registerFormConatiner {
-  text-align: center;
-}
-
 .registerform {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  align-items: center;
   width: 600px;
   height: 400px;
+  background-color: #f8f8f8;
 }

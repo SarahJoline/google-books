@@ -6,7 +6,7 @@ function BookCards(props) {
   const books = props.bData;
 
   function addBooks(event, books) {
-    AuthHelperMethods.fetch(`/api/lendbook/${books.id}`, {
+    AuthHelperMethods.fetch(`/api/books/lend/${books.id}`, {
       method: "POST",
       body: JSON.stringify({
         id: books.id,

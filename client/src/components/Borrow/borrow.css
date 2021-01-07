@@ -24,3 +24,25 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.button-div {
+  display: flex;
+}
+
+.checked-out {
+  width: 161px;
+  height: 55px;
+  font-size: 17px;
+  color: #959899;
+  font-weight: bold;
+  text-align: center;
+  background-color: white;
+  border: none;
+  display: table;
+}
+
+span {
+  height: 55px;
+  display: table-cell;
+  vertical-align: middle;
+}

@@ -83,6 +83,16 @@ function JoinedBooksReducer(state = initialState, action) {
         error: null,
         data: action.data,
       };
+    // case "DELETE_FROM_STORE":
+    // return {
+    //   ...state,
+    // data:
+    // }
+    // case "ADD_TO_STORE":
+    // return {
+    //   ...state,
+
+    // }
     case "JOINED_ERROR":
       return {
         ...state,

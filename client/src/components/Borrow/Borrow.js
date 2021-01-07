@@ -2,40 +2,60 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
-import axios from "axios";
 import "./borrow.css";
 
-const BookCard = (props) => {
+function CheckedOut() {
+  return (
+    <div className="checked-out">
+      <span>CHECKED OUT</span>
+    </div>
+  );
+}
+
+function BorrowButton(props) {
   const book = props.book;
   console.log(props);
 
   function borrow(event, book) {
     console.log(event, book);
-    AuthHelperMethods.fetch(`/api/postborrow/${book._id}`, {
+    AuthHelperMethods.fetch(`/api/userbooks/borrow/${book._id}`, {
       method: "PATCH",
-    }).then((res) => {
-      console.log(res);
+    }).catch((err) => {
+      if (err) {
+        console.log(err);
+      }
     });
   }
 
   return (
+    <button
+      className="lend-button"
+      onClick={(event) => {
+        console.log(book._id);
+        borrow(event, book);
+      }}
+      id={book.id}
+      data={book}
+    >
+      BORROW
+    </button>
+  );
+}
+
+const BookCard = (props) => {
+  const book = props.book;
+  let bookStatus = book.borrowerID;
+
+  return book !== null ? (
     <div className="book-card">
       <img className="book-image" src={book.image} alt={book.title} />
 
       <div className="button-div">
-        <button
-          className="lend-button"
-          onClick={(event) => {
-            console.log(book._id);
-            borrow(event, book);
-          }}
-          id={book.id}
-          data={book}
-        >
-          BORROW
-        </button>
+        {bookStatus !== null ? <CheckedOut /> : <BorrowButton book={book} />}
       </div>
     </div>
+  ) : (
+    <div></div>
   );
 };
 
@@ -43,52 +63,24 @@ function Borrow(props) {
   const books = props.books;
   const userBooks = props.userBooks;
   const joinedBooks = props.joinedBooks;
-  console.log(joinedBooks);
 
   let [searchTerm, setSearchTerm] = useState();
 
-  useEffect(() => {
-    getAllBooks();
-  }, []);
+  let orderedBooks = _.orderBy(userBooks, ["borrowerID"], ["desc"]);
+  console.log(orderedBooks);
 
   useEffect(() => {
     joinBooks();
   }, [books, userBooks]);
 
-  async function getAllBooks() {
-    try {
-      await axios
-        .request({
-          method: "GET",
-          url: "/api/borrow-books",
-        })
-        .then((res) => {
-          props.loadedBooks(res.data);
-        });
-
-      await axios
-        .request({
-          method: "GET",
-          url: "/api/getuserbooks",
-        })
-        .then((res) => {
-          props.loadedUserBooks(res.data);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  //it needs to match the userBooks to the Books and then display those
-  //With the userBook _id as a key
-  //then the search will go through that set of Data, instead of Books.
   let displayBooks = [];
 
   function joinBooks() {
+    let orderedBooks = _.orderBy(userBooks, ["borrowerID"], ["desc"]);
     if (books !== undefined && userBooks !== undefined) {
-      for (var i = 0; i < userBooks.length; i++) {
-        let foundBook = _.find(books, { _id: userBooks[i].bookID });
-        let joinedBook = { ...foundBook, ...userBooks[i] };
+      for (var i = 0; i < orderedBooks.length; i++) {
+        let foundBook = _.find(books, { _id: orderedBooks[i].bookID });
+        let joinedBook = { ...foundBook, ...orderedBooks[i] };
         displayBooks.push(joinedBook);
       }
 
@@ -118,8 +110,8 @@ function Borrow(props) {
           setSearchTerm(e.target.value);
         }}
       />
-      <div className="available-books">58 books available</div>
-      <div className="location">within 10 miles of 2330 Larkin</div>
+      <div className="available-books">{userBooks.length} books available</div>
+      {/* <div className="location">within 10 miles of 2330 Larkin</div> */}
       <div className="borrow-books">
         {!searchTerm &&
           joinedBooks.map((book) => <BookCard book={book} key={book._id} />)}

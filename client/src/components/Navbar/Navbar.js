@@ -1,46 +1,56 @@
 import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import Dialog from "@material-ui/core/Dialog";
 import Menu from "@material-ui/core/Menu";
+import _ from "lodash";
+import axios from "axios";
 import "./navbar.css";
 
 function LendButton() {
   return (
-    <button
-      className="lendBtn"
-      onClick={(e) => {
-        window.location.href = "/lend";
-      }}
-    >
-      LEND
-    </button>
+    <Link to={"/lend"}>
+      <button className="lendBtn">LEND</button>
+    </Link>
   );
 }
 
 function BorrowButton() {
   return (
-    <button
-      className="borrowBtn"
-      onClick={(e) => {
-        window.location.href = "/borrow";
-      }}
-    >
-      BORROW
-    </button>
+    <Link to={"/borrow"}>
+      <button className="borrowBtn">BORROW</button>
+    </Link>
   );
 }
 
-function LoggedInContent() {
-  const [userEmail, setUser] = useState();
+function LoggedInContent(props) {
+  console.log(props);
+
+  const [userData, setUserData] = useState();
   const [open, setOpen] = useState(false);
-  const [lending, isLending] = useState(false);
+  const [lending, setLending] = useState(false);
+
+  if (userData) {
+    console.log(userData.email);
+    console.log(userData.userID);
+  }
+
+  let myBooks;
+
+  function getMyBooks() {}
+
+  let spot = useLocation();
 
   useEffect(() => {
     getUserInfo();
-    manageButtons();
   }, []);
+
+  useEffect(() => {
+    manageButtons();
+  }, [spot]);
 
   function logout() {
     AuthHelperMethods.logout("id_token");
@@ -48,15 +58,18 @@ function LoggedInContent() {
   }
 
   function getUserInfo() {
-    const UserInfo = AuthHelperMethods.decodeToken();
-    setUser(UserInfo.email);
+    const userInfo = AuthHelperMethods.decodeToken();
+    setUserData(userInfo);
   }
 
   function manageButtons() {
-    if (window.location.href.indexOf("lend") > -1) {
-      isLending(true);
+    if (spot.pathname === "/lend") {
+      setLending(true);
+    } else if (spot.pathname === "/borrow") {
+      setLending(false);
     }
   }
+
   return (
     <div className="btn-div">
       {lending ? <BorrowButton /> : <LendButton />}
@@ -67,13 +80,24 @@ function LoggedInContent() {
             setOpen(true);
           }}
         >
-          {userEmail}
+          {userData ? userData.email : " "}
         </div>
         <div className="user-book-num">
-          <img src="/assets/Vector.svg" alt="X" />
+          {/* <img src="/assets/Vector.svg" alt="X" /> */}
           LENDING 23 BOOKS
         </div>
-        <Menu id="logout-menu" open={open} onClose={() => setOpen(false)}>
+
+        <Menu
+          id="logout-menu"
+          open={open}
+          onClose={() => setOpen(false)}
+          elevation={4}
+          getContentAnchorEl={null}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
           <button
             className="logoutBtn"
             onClick={(e) => {
@@ -120,8 +144,36 @@ function LoggedOutContent() {
   );
 }
 
-function Navbar() {
+function Navbar(props) {
   const loggedIn = AuthHelperMethods.loggedIn();
+
+  useEffect(() => {
+    getAllBooks();
+  }, []);
+
+  async function getAllBooks() {
+    try {
+      await axios
+        .request({
+          method: "GET",
+          url: "/api/books",
+        })
+        .then((res) => {
+          props.loadedBooks(res.data);
+        });
+
+      await axios
+        .request({
+          method: "GET",
+          url: "/api/userbooks",
+        })
+        .then((res) => {
+          props.loadedUserBooks(res.data);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <div className="container">
@@ -132,4 +184,23 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    books: state.books.data,
+    userBooks: state.userBooks.data,
+    joinedBooks: state.joinedBooks.data,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadedBooks: (data) => dispatch({ type: "BOOKS_LOADED", data: data }),
+    loadedUserBooks: (data) =>
+      dispatch({ type: "USERBOOKS_LOADED", data: data }),
+    loadedJoinedBooks: (data) =>
+      dispatch({ type: "JOINED_LOADED", data: data }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
