@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
@@ -14,7 +14,6 @@ function CheckedOut() {
 
 function BorrowButton(props) {
   const book = props.book;
-  console.log(props);
 
   function borrow(event, book) {
     console.log(event, book);
@@ -25,13 +24,15 @@ function BorrowButton(props) {
         console.log(err);
       }
     });
+
+    const userInfo = AuthHelperMethods.decodeToken();
+    props.updateJoinedBooks(userInfo.userID, book._id);
   }
 
   return (
     <button
       className="lend-button"
       onClick={(event) => {
-        console.log(book._id);
         borrow(event, book);
       }}
       id={book.id}
@@ -43,15 +44,24 @@ function BorrowButton(props) {
 }
 
 const BookCard = (props) => {
-  const book = props.book;
-  let bookStatus = book.borrowerID;
+  const joinedBook = props.joinedBook;
 
-  return book !== null ? (
+  console.log("joinedBook", joinedBook);
+
+  return joinedBook !== null ? (
     <div className="book-card">
-      <img className="book-image" src={book.image} alt={book.title} />
+      <img
+        className="book-image"
+        src={joinedBook.image}
+        alt={joinedBook.title}
+      />
 
       <div className="button-div">
-        {bookStatus !== null ? <CheckedOut /> : <BorrowButton book={book} />}
+        {joinedBook.borrowerID === null ? (
+          <CheckedOut />
+        ) : (
+          <ConnectedBorrowButton book={joinedBook} />
+        )}
       </div>
     </div>
   ) : (
@@ -60,33 +70,9 @@ const BookCard = (props) => {
 };
 
 function Borrow(props) {
-  const books = props.books;
   const userBooks = props.userBooks;
   const joinedBooks = props.joinedBooks;
-
   let [searchTerm, setSearchTerm] = useState();
-
-  let orderedBooks = _.orderBy(userBooks, ["borrowerID"], ["desc"]);
-  console.log(orderedBooks);
-
-  useEffect(() => {
-    joinBooks();
-  }, [books, userBooks]);
-
-  let displayBooks = [];
-
-  function joinBooks() {
-    let orderedBooks = _.orderBy(userBooks, ["borrowerID"], ["desc"]);
-    if (books !== undefined && userBooks !== undefined) {
-      for (var i = 0; i < orderedBooks.length; i++) {
-        let foundBook = _.find(books, { _id: orderedBooks[i].bookID });
-        let joinedBook = { ...foundBook, ...orderedBooks[i] };
-        displayBooks.push(joinedBook);
-      }
-
-      props.loadedJoinedBooks(displayBooks);
-    }
-  }
 
   if (!joinedBooks) {
     return <div>Loading!</div>;
@@ -95,8 +81,8 @@ function Borrow(props) {
   let matches;
 
   if (searchTerm && joinedBooks) {
-    matches = _.filter(joinedBooks, (book) => {
-      return book.title.toLowerCase().includes(searchTerm.toLowerCase());
+    matches = _.filter(joinedBooks, (joinedBook) => {
+      return joinedBook.title.toLowerCase().includes(searchTerm.toLowerCase());
     });
   }
 
@@ -114,8 +100,13 @@ function Borrow(props) {
       {/* <div className="location">within 10 miles of 2330 Larkin</div> */}
       <div className="borrow-books">
         {!searchTerm &&
-          joinedBooks.map((book) => <BookCard book={book} key={book._id} />)}
-        {searchTerm && matches.map((book) => <BookCard book={book} />)}
+          joinedBooks.map((joinedBook) => (
+            <ConnectedBookCard joinedBook={joinedBook} key={joinedBook._id} />
+          ))}
+        {searchTerm &&
+          matches.map((joinedBook) => (
+            <ConnectedBookCard joinedBook={joinedBook} />
+          ))}
       </div>
     </div>
   );
@@ -138,7 +129,18 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: "USERBOOKS_LOADED", data: data }),
     loadedJoinedBooks: (data) =>
       dispatch({ type: "JOINED_LOADED", data: data }),
+    updateJoinedBooks: (userID, _id) =>
+      dispatch({ type: "UPDATE_STORE", data: { userID, _id } }),
   };
 };
+
+const ConnectedBorrowButton = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BorrowButton);
+const ConnectedBookCard = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BookCard);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Borrow);

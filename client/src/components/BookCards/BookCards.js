@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import "./bookcards.css";
 
@@ -20,6 +21,20 @@ function BookCards(props) {
       if (err) {
         console.log(err);
       }
+    });
+
+    const userInfo = AuthHelperMethods.decodeToken();
+    console.log(userInfo.userID);
+
+    props.addToJoinedBooks({
+      id: books.id,
+      title: books.title,
+      authors: books.authors,
+      description: books.description,
+      link: books.link,
+      image: books.image,
+      borrowerID: null,
+      lenderID: userInfo.userID,
     });
   }
 
@@ -47,4 +62,28 @@ function BookCards(props) {
   return <div className="book-container">{bookArray}</div>;
 }
 
-export default BookCards;
+// //reading out of the redux state into the component's props
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    books: state.books.data,
+    userBooks: state.userBooks.data,
+    joinedBooks: state.joinedBooks.data,
+  };
+};
+
+//writing
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadedBooks: (data) => dispatch({ type: "BOOKS_LOADED", data: data }),
+    loadedUserBooks: (data) =>
+      dispatch({ type: "USERBOOKS_LOADED", data: data }),
+    loadedJoinedBooks: (data) =>
+      dispatch({ type: "JOINED_LOADED", data: data }),
+    deleteFromJoinedBooks: (_id) =>
+      dispatch({ type: "DELETE_FROM_STORE", _id: _id }),
+    addToJoinedBooks: (data) => dispatch({ type: "ADD_TO_STORE", data: data }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookCards);

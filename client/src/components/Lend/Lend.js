@@ -5,9 +5,9 @@ import axios from "axios";
 import BookCards from "../BookCards/BookCards";
 import BookLists from "../BookLists/BookLists";
 
-function Lend(props) {
+function Lend() {
   const [value, modifier] = useState({ value: " " });
-  let [books, booksModifier] = useState([]);
+  let [books, setBooks] = useState([]);
 
   function handleSearch() {
     axios
@@ -16,9 +16,8 @@ function Lend(props) {
         url: `https://www.googleapis.com/books/v1/volumes?q=${value.value}&startIndex=0&max-results=40`,
       })
       .then((response) => {
-        console.log(response);
         let bookData = response.data.items;
-        console.log(bookData);
+
         let bookResults = [];
         for (var i = 0; i < bookData.length; i++) {
           let bookInfo = bookData[i].volumeInfo;
@@ -36,9 +35,10 @@ function Lend(props) {
           };
           bookResults.push(book);
         }
-        booksModifier(bookResults);
+        setBooks(bookResults);
       });
   }
+
   return (
     <div className="lending-page">
       <div className="lending-books-div">
@@ -67,7 +67,9 @@ function Lend(props) {
   );
 }
 
+// //reading out of the redux state into the component's props
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     books: state.books.data,
     userBooks: state.userBooks.data,
@@ -75,6 +77,7 @@ const mapStateToProps = (state) => {
   };
 };
 
+//writing
 const mapDispatchToProps = (dispatch) => {
   return {
     loadedBooks: (data) => dispatch({ type: "BOOKS_LOADED", data: data }),
@@ -82,6 +85,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: "USERBOOKS_LOADED", data: data }),
     loadedJoinedBooks: (data) =>
       dispatch({ type: "JOINED_LOADED", data: data }),
+    deleteFromJoinedBooks: (_id) =>
+      dispatch({ type: "DELETE_FROM_STORE", _id: _id }),
+    addToJoinedBooks: (data) => dispatch({ type: "ADD_TO_STORE", data: data }),
   };
 };
 

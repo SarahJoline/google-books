@@ -1,5 +1,6 @@
 import { createStore, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import _ from "lodash";
 
 // API reducers
 const initialState = {
@@ -32,6 +33,7 @@ function BooksReducer(state = initialState, action) {
         loaded: false,
         error: action.error,
       };
+
     default:
       return state;
   }
@@ -83,22 +85,46 @@ function JoinedBooksReducer(state = initialState, action) {
         error: null,
         data: action.data,
       };
-    // case "DELETE_FROM_STORE":
-    // return {
-    //   ...state,
-    // data:
-    // }
-    // case "ADD_TO_STORE":
-    // return {
-    //   ...state,
-
-    // }
     case "JOINED_ERROR":
       return {
         ...state,
         loading: false,
         loaded: false,
         error: action.error,
+      };
+    case "DELETE_FROM_STORE":
+      const id = action._id;
+      const updatedJoinedBooks = _.reject(state.data, { _id: id });
+
+      return {
+        ...state,
+        data: updatedJoinedBooks,
+      };
+    case "ADD_TO_STORE":
+      const newBook = action.data;
+      console.log(newBook);
+      console.log(state);
+      const newArray = state.data;
+      console.log(newArray);
+      newArray.push(newBook);
+      console.log(newArray);
+      return {
+        ...state,
+        data: newArray,
+      };
+    case "UPDATE_STORE":
+      console.log(action);
+      console.log(state);
+
+      const bookToUpdate = _.find(state.data, { _id: action.data._id });
+      console.log(bookToUpdate);
+
+      bookToUpdate.borrowerID = action.data.userID;
+
+      console.log(bookToUpdate);
+
+      return {
+        ...state,
       };
     default:
       return state;

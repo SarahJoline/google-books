@@ -38,10 +38,6 @@ function LoggedInContent(props) {
     console.log(userData.userID);
   }
 
-  let myBooks;
-
-  function getMyBooks() {}
-
   let spot = useLocation();
 
   useEffect(() => {
@@ -146,6 +142,8 @@ function LoggedOutContent() {
 
 function Navbar(props) {
   const loggedIn = AuthHelperMethods.loggedIn();
+  const books = props.books;
+  const userBooks = props.userBooks;
 
   useEffect(() => {
     getAllBooks();
@@ -175,6 +173,25 @@ function Navbar(props) {
     }
   }
 
+  useEffect(() => {
+    joinBooks();
+  }, [books, userBooks]);
+
+  let displayBooks = [];
+
+  function joinBooks() {
+    let orderedBooks = _.orderBy(userBooks, ["borrowerID"], ["desc"]);
+    if (books !== undefined && userBooks !== undefined) {
+      for (var i = 0; i < orderedBooks.length; i++) {
+        let foundBook = _.find(books, { _id: orderedBooks[i].bookID });
+        let joinedBook = { ...foundBook, ...orderedBooks[i] };
+        displayBooks.push(joinedBook);
+      }
+
+      props.loadedJoinedBooks(displayBooks);
+    }
+  }
+
   return (
     <div className="container">
       <div className="app-name">Book Swap</div>
@@ -185,7 +202,6 @@ function Navbar(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     books: state.books.data,
     userBooks: state.userBooks.data,
