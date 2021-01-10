@@ -71,8 +71,6 @@ router.delete("/userbooks/delete/:_id", (req, res) => {
 });
 
 router.patch("/userbooks/borrow/:_id", verify, (req, res) => {
-  console.log(req.user.userID);
-
   db.UserBook.findOneAndUpdate(
     { _id: req.params._id },
     { $set: { borrowerID: req.user.userID } }

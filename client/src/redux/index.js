@@ -102,26 +102,21 @@ function JoinedBooksReducer(state = initialState, action) {
       };
     case "ADD_TO_STORE":
       const newBook = action.data;
-      console.log(newBook);
-      console.log(state);
-      const newArray = state.data;
-      console.log(newArray);
-      newArray.push(newBook);
-      console.log(newArray);
+      const updatedBooks = [...state.data, newBook];
+
       return {
         ...state,
-        data: newArray,
+        data: updatedBooks,
       };
-    case "UPDATE_STORE":
+    case "BORROW_BOOK":
+      const newDataCopy = { ...state.data };
+
+      const bookToUpdate = _.find(newDataCopy, { _id: action.joinedBookID });
+
       console.log(action);
-      console.log(state);
+      console.log("bookToUpdate", bookToUpdate);
 
-      const bookToUpdate = _.find(state.data, { _id: action.data._id });
-      console.log(bookToUpdate);
-
-      bookToUpdate.borrowerID = action.data.userID;
-
-      console.log(bookToUpdate);
+      bookToUpdate.borrowerID = action.userID;
 
       return {
         ...state,

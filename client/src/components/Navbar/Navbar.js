@@ -27,15 +27,13 @@ function BorrowButton() {
 }
 
 function LoggedInContent(props) {
-  console.log(props);
-
   const [userData, setUserData] = useState();
   const [open, setOpen] = useState(false);
   const [lending, setLending] = useState(false);
 
   if (userData) {
-    console.log(userData.email);
-    console.log(userData.userID);
+    // console.log(userData.email);
+    // console.log(userData.userID);
   }
 
   let spot = useLocation();

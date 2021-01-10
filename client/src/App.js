@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import Borrow from "./components/Borrow/Borrow";
+import BorrowPage from "./components/BorrowPage";
 import Lend from "./components/Lend/Lend";
 
 import store from "./redux";
@@ -17,7 +17,7 @@ function App() {
           <Switch>
             <Route exact path="/lend" component={Lend} />
 
-            <Route exact path="/borrow" component={Borrow} />
+            <Route exact path="/borrow" component={BorrowPage} />
           </Switch>
         </div>
       </Router>
