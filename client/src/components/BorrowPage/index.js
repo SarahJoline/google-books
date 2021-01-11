@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
 import "./index.css";
@@ -9,8 +9,6 @@ function BorrowPage(props) {
   const userBooks = props.userBooks;
   const joinedBooks = props.joinedBooks;
   let [searchTerm, setSearchTerm] = useState();
-
-  console.log("BorrowPAge - joinedBooks", joinedBooks);
 
   if (!joinedBooks) {
     return <div>Loading!</div>;
@@ -34,47 +32,29 @@ function BorrowPage(props) {
           setSearchTerm(e.target.value);
         }}
       />
-      <div className="available-books">{userBooks.length} books available</div>
+      <div className="available-books">
+        {matches ? matches.length : userBooks.length} books available
+      </div>
       {/* <div className="location">within 10 miles of 2330 Larkin</div> */}
       <div className="borrow-books">
         {!searchTerm &&
           joinedBooks.map((joinedBook) => (
-            <BookCard
-              joinedBook={joinedBook}
-              borrowerID={joinedBook.borrowerID}
-              key={joinedBook._id}
-            />
+            <BookCard joinedBookID={joinedBook._id} key={joinedBook._id} />
           ))}
         {searchTerm &&
           matches.map((joinedBook) => (
-            <BookCard
-              joinedBook={joinedBook}
-              borrowerID={joinedBook.borrowerID}
-            />
+            <BookCard joinedBookID={joinedBook._id} />
           ))}
       </div>
     </div>
   );
 }
 
-// //reading out of the redux state into the component's props
 const mapStateToProps = (state) => {
   return {
-    books: state.books.data,
     userBooks: state.userBooks.data,
     joinedBooks: state.joinedBooks.data,
   };
 };
 
-//writing
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadedBooks: (data) => dispatch({ type: "BOOKS_LOADED", data: data }),
-    loadedUserBooks: (data) =>
-      dispatch({ type: "USERBOOKS_LOADED", data: data }),
-    loadedJoinedBooks: (data) =>
-      dispatch({ type: "JOINED_LOADED", data: data }),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BorrowPage);
+export default connect(mapStateToProps, null)(BorrowPage);

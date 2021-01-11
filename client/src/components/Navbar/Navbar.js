@@ -31,11 +31,6 @@ function LoggedInContent(props) {
   const [open, setOpen] = useState(false);
   const [lending, setLending] = useState(false);
 
-  if (userData) {
-    // console.log(userData.email);
-    // console.log(userData.userID);
-  }
-
   let spot = useLocation();
 
   useEffect(() => {
@@ -53,6 +48,7 @@ function LoggedInContent(props) {
 
   function getUserInfo() {
     const userInfo = AuthHelperMethods.decodeToken();
+
     setUserData(userInfo);
   }
 
@@ -62,6 +58,14 @@ function LoggedInContent(props) {
     } else if (spot.pathname === "/borrow") {
       setLending(false);
     }
+  }
+
+  let myBooks;
+
+  if (userData) {
+    myBooks = _.filter(props.joinedBooks, {
+      lenderID: userData.userID,
+    });
   }
 
   return (
@@ -78,7 +82,7 @@ function LoggedInContent(props) {
         </div>
         <div className="user-book-num">
           {/* <img src="/assets/Vector.svg" alt="X" /> */}
-          LENDING 23 BOOKS
+          LENDING {myBooks ? myBooks.length : "0"} BOOKS
         </div>
 
         <Menu
@@ -194,7 +198,7 @@ function Navbar(props) {
     <div className="container">
       <div className="app-name">Book Swap</div>
 
-      {loggedIn ? <LoggedInContent /> : <LoggedOutContent />}
+      {loggedIn ? <ConnectedLoggedInContent /> : <LoggedOutContent />}
     </div>
   );
 }
@@ -216,5 +220,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: "JOINED_LOADED", data: data }),
   };
 };
+
+const ConnectedLoggedInContent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoggedInContent);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

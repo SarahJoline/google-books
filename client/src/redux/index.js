@@ -92,7 +92,7 @@ function JoinedBooksReducer(state = initialState, action) {
         loaded: false,
         error: action.error,
       };
-    case "DELETE_FROM_STORE":
+    case "DELETE_FROM_JOINED":
       const id = action._id;
       const updatedJoinedBooks = _.reject(state.data, { _id: id });
 
@@ -100,7 +100,7 @@ function JoinedBooksReducer(state = initialState, action) {
         ...state,
         data: updatedJoinedBooks,
       };
-    case "ADD_TO_STORE":
+    case "ADD_TO_JOINED":
       const newBook = action.data;
       const updatedBooks = [...state.data, newBook];
 
@@ -112,9 +112,6 @@ function JoinedBooksReducer(state = initialState, action) {
       const newDataCopy = { ...state.data };
 
       const bookToUpdate = _.find(newDataCopy, { _id: action.joinedBookID });
-
-      console.log(action);
-      console.log("bookToUpdate", bookToUpdate);
 
       bookToUpdate.borrowerID = action.userID;
 

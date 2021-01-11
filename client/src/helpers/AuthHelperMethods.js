@@ -74,7 +74,6 @@ AuthHelperMethods.decodeToken = () => {
   // Using jwt-decode npm package to decode the token
   let answer = decode(AuthHelperMethods.getToken());
 
-  console.log("Recieved answer!");
   return answer;
 };
 

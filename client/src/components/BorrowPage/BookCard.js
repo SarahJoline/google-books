@@ -4,9 +4,12 @@ import _ from "lodash";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 
 const BookCard = (props) => {
-  const { joinedBook, borrowerID } = props;
+  const { joinedBook } = props;
 
-  console.log("BookCard Render");
+  console.log("joinedbook", joinedBook);
+
+  const [isClicked, setIsClicked] = useState(false);
+
   // TODO: I want to rerender this when joinedBook.borrowerID changes.
 
   function handleBorrowClick(joinedBook) {
@@ -20,6 +23,8 @@ const BookCard = (props) => {
 
     const userInfo = AuthHelperMethods.decodeToken();
     props.borrowBook(userInfo.userID, joinedBook._id);
+
+    setIsClicked(true);
   }
 
   return (
@@ -31,12 +36,12 @@ const BookCard = (props) => {
       />
 
       <div className="button-div">
-        {borrowerID && (
+        {joinedBook.borrowerID && (
           <div className="checked-out">
             <span>CHECKED OUT</span>
           </div>
         )}
-        {!borrowerID && (
+        {!joinedBook.borrowerID && (
           <button
             className="lend-button"
             onClick={() => {
@@ -53,15 +58,12 @@ const BookCard = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    books: state.books.data,
-    userBooks: state.userBooks.data,
-    joinedBooks: state.joinedBooks.data,
+    joinedBook: _.find(state.joinedBooks.data, { _id: ownProps.joinedBookID }),
   };
 };
 
-//writing
 const mapDispatchToProps = (dispatch) => {
   return {
     borrowBook: (userID, joinedBookID) =>
