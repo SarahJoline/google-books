@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
-import "./bookcards.css";
+import "./index.css";
 
 function BookCards(props) {
   const books = props.bData;
@@ -68,7 +68,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-//writing
 const mapDispatchToProps = (dispatch) => {
   return {
     addToJoinedBooks: (data) => dispatch({ type: "ADD_TO_JOINED", data: data }),

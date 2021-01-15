@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
-import "./myBooks.css";
+import "./index.css";
 import axios from "axios";
 
 function MyBook(props) {
@@ -9,8 +8,6 @@ function MyBook(props) {
   let myBooks = props.myBooks;
 
   function deleteBook(book) {
-    console.log(book);
-
     axios
       .request({
         method: "DELETE",

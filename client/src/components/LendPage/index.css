@@ -1,3 +1,31 @@
+.lending-page {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+.lending-books-div {
+  border-right: 1px solid #e5e5e5;
+}
+
+.form {
+  padding: 30px 50px;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 25px;
+  margin-left: 10px;
+}
+.searchInput {
+  font-size: 20px;
+  padding-left: 15px;
+  margin-left: 15px;
+}
+
+.render-books {
+  margin-top: 50px;
+}
+
 .book-container {
   display: flex;
   flex-direction: row;

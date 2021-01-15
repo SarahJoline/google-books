@@ -2,11 +2,10 @@ import React from "react";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import { connect } from "react-redux";
 import _ from "lodash";
-import "./bookLists.css";
-import MyBook from "../MyBook/MyBook";
+import "./index.css";
+import BookListCard from "./BookListCard";
 
 function BookList(props) {
-  console.log(props);
   const userInfo = AuthHelperMethods.decodeToken();
 
   const myBooks = _.filter(props.joinedBooks, {
@@ -19,7 +18,7 @@ function BookList(props) {
         <div className="lending">Books you're lending</div>
         <div className="lending-number">{myBooks.length} books</div>
         <div className="booklist-div">
-          <MyBook myBooks={myBooks} />
+          <BookListCard myBooks={myBooks} />
         </div>
       </div>
     </div>

@@ -1,3 +1,19 @@
+.booklist {
+  width: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lending {
+  font: bold 25px "Roboto";
+  padding: 20px 0px;
+}
+
+.lending-number {
+  font: bold 14px #777777;
+}
+
 .lend-book-card {
   width: 270px;
   height: 40px;

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import "./lend.css";
-import { connect } from "react-redux";
+import "./index.css";
 import axios from "axios";
-import BookCards from "../BookCards/BookCards";
-import BookLists from "../BookLists/BookLists";
+import BookCards from "./BookCards";
+import BookLists from "../BookLists";
 
 function Lend() {
   const [value, modifier] = useState({ value: " " });

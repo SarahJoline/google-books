@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
@@ -6,11 +6,9 @@ import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 const BookCard = (props) => {
   const { joinedBook } = props;
 
-  console.log("joinedbook", joinedBook);
-
   const [isClicked, setIsClicked] = useState(false);
 
-  // TODO: I want to rerender this when joinedBook.borrowerID changes.
+  let loggedInStatus = AuthHelperMethods.loggedIn();
 
   function handleBorrowClick(joinedBook) {
     AuthHelperMethods.fetch(`/api/userbooks/borrow/${joinedBook._id}`, {
@@ -28,7 +26,7 @@ const BookCard = (props) => {
   }
 
   return (
-    <div className="book-card">
+    <div className="book-card" key={joinedBook._id}>
       <img
         className="book-image"
         src={joinedBook.image}
@@ -45,7 +43,9 @@ const BookCard = (props) => {
           <button
             className="lend-button"
             onClick={() => {
-              handleBorrowClick(joinedBook);
+              loggedInStatus
+                ? handleBorrowClick(joinedBook)
+                : console.log("Not logged in");
             }}
             id={joinedBook.id}
             data={joinedBook}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import axios from "axios";
-import "./register.css";
+import "./index.css";
 
 function Register() {
   let [register, setRegister] = useState({
