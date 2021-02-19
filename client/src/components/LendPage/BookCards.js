@@ -37,19 +37,19 @@ function BookCards(props) {
     });
   }
 
-  let bookArray = books.map((books, index) => {
+  let bookArray = books.map((book, index) => {
     return (
-      <div className="book-card" key={books.id}>
-        <img className="book-image" src={books.image} alt={books.title} />
+      <div className="book-card" key={book.id}>
+        <img className="book-image" src={book.image} alt={book.title} />
 
         <div className="button-div">
           <button
             className="lend-button"
             onClick={(event) => {
-              addBooks(event, books);
+              addBooks(event, book);
             }}
-            id={books.id}
-            data={books}
+            id={book.id}
+            data={book}
           >
             LEND
           </button>

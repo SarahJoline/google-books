@@ -17,7 +17,7 @@ function App() {
           <Switch>
             <Route exact path="/lend" component={LendPage} />
 
-            <Route exact path="/borrow" component={BorrowPage} />
+            <Route exact path="/" component={BorrowPage} />
           </Switch>
         </div>
       </Router>

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
 import "./index.css";
-
 import BookCard from "./BookCard";
 
 function BorrowPage(props) {
@@ -43,7 +42,7 @@ function BorrowPage(props) {
           ))}
         {searchTerm &&
           matches.map((joinedBook) => (
-            <BookCard joinedBookID={joinedBook._id} />
+            <BookCard joinedBookID={joinedBook._id} key={joinedBook._id} />
           ))}
       </div>
     </div>

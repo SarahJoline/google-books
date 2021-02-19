@@ -16,7 +16,7 @@ function LendButton() {
 
 function BorrowButton() {
   return (
-    <Link to={"/borrow"}>
+    <Link to={"/"}>
       <button className="borrowBtn">BORROW</button>
     </Link>
   );
@@ -24,6 +24,7 @@ function BorrowButton() {
 
 function LoggedInContent(props) {
   const [userData, setUserData] = useState();
+  const [anchorEl, setAnchorEl] = useState();
   const [open, setOpen] = useState(false);
   const [lending, setLending] = useState(false);
 
@@ -39,7 +40,12 @@ function LoggedInContent(props) {
 
   function logout() {
     AuthHelperMethods.logout("id_token");
-    window.location.href = "/borrow";
+    window.location.href = "/";
+  }
+
+  function handleClick(e) {
+    setAnchorEl(e.target)
+    setOpen(true);
   }
 
   function getUserInfo() {
@@ -51,7 +57,7 @@ function LoggedInContent(props) {
   function manageButtons() {
     if (spot.pathname === "/lend") {
       setLending(true);
-    } else if (spot.pathname === "/borrow") {
+    } else if (spot.pathname === "/") {
       setLending(false);
     }
   }
@@ -71,7 +77,7 @@ function LoggedInContent(props) {
         <div
           className="user-email"
           onClick={(e) => {
-            setOpen(true);
+            handleClick(e)
           }}
         >
           {userData ? userData.email : " "}
@@ -86,7 +92,7 @@ function LoggedInContent(props) {
           open={open}
           onClose={() => setOpen(false)}
           elevation={4}
-          getContentAnchorEl={null}
+          anchorEl={anchorEl}
           anchorOrigin={{
             vertical: "top",
             horizontal: "right",

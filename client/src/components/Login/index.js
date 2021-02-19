@@ -15,7 +15,7 @@ function Login(props) {
       .then((res) => {
         console.log("login working");
         AuthHelperMethods.setToken(res.data.token);
-        window.location.href = "/borrow";
+        window.location.href = "/";
       })
       .catch((err) => {
         if (err) {
