@@ -4,7 +4,6 @@ import "./index.css";
 import axios from "axios";
 
 function MyBook(props) {
-  const loadedJoinedBooks = props.joinedBooks;
   let myBooks = props.myBooks;
 
   function deleteBook(book) {

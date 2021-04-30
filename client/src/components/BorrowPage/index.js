@@ -6,8 +6,9 @@ import BookCard from "./BookCard";
 
 function BorrowPage(props) {
   const { userBooks, joinedBooks } = props;
-
   let [searchTerm, setSearchTerm] = useState();
+
+  let orderedBooks = _.orderBy(joinedBooks, ["borrowerID"], ["desc"]);
 
   if (!joinedBooks) {
     return <div>Loading!</div>;
@@ -16,7 +17,7 @@ function BorrowPage(props) {
   let matches;
 
   if (searchTerm && joinedBooks) {
-    matches = _.filter(joinedBooks, (joinedBook) => {
+    matches = _.filter(orderedBooks, (joinedBook) => {
       return joinedBook.title.toLowerCase().includes(searchTerm.toLowerCase());
     });
   }
@@ -37,12 +38,12 @@ function BorrowPage(props) {
       {/* <div className="location">within 10 miles of 2330 Larkin</div> */}
       <div className="borrow-books">
         {!searchTerm &&
-          joinedBooks.map((joinedBook) => (
-            <BookCard joinedBookID={joinedBook._id} image={joinedBook.image} title={joinedBook.title} borrowerId={joinedBook.borrowerID} key={joinedBook._id} />
+          orderedBooks.map((joinedBook) => (
+            <BookCard joinedBookID={joinedBook._id} image={joinedBook.image} title={joinedBook.title} joinedBook={joinedBook} borrowerId={joinedBook.borrowerID} key={joinedBook._id} />
           ))}
         {searchTerm &&
           matches.map((joinedBook) => (
-            <BookCard joinedBookID={joinedBook._id} image={joinedBook.image} title={joinedBook.title} borrowerId={joinedBook.borrowerID} key={joinedBook._id} />
+            <BookCard joinedBookID={joinedBook._id} image={joinedBook.image} title={joinedBook.title} joinedBook={joinedBook} borrowerId={joinedBook.borrowerID} key={joinedBook._id} />
           ))}
       </div>
     </div>

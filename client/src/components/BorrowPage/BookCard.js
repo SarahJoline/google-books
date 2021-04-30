@@ -4,25 +4,24 @@ import _ from "lodash";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 
 const BookCard = ({ joinedBook, borrowBook, joinedBookID, image, title, borrowerId}) => {
-  console.log(joinedBook)
-
-  const [isClicked, setIsClicked] = useState(false);
 
   let loggedInStatus = AuthHelperMethods.loggedIn();
 
-  function handleBorrowClick(joinedBook) {
+  function handleBorrowClick(joinedBookID) {
+    const userInfo = AuthHelperMethods.decodeToken();
+    const { userID } = userInfo;
+    
     AuthHelperMethods.fetch(`/api/userbooks/borrow/${joinedBookID}`, {
       method: "PATCH",
+      borrowerID: userID,
     }).catch((err) => {
       if (err) {
         console.log(err);
       }
     });
 
-    const userInfo = AuthHelperMethods.decodeToken();
-    borrowBook(userInfo.userID, joinedBook._id);
+    borrowBook(userID, joinedBookID);
 
-    setIsClicked(true);
   }
 
   return (
@@ -44,7 +43,7 @@ const BookCard = ({ joinedBook, borrowBook, joinedBookID, image, title, borrower
             className="lend-button"
             onClick={() => {
               loggedInStatus
-                ? handleBorrowClick(joinedBook)
+                ? handleBorrowClick(joinedBookID)
                 : console.log("Not logged in");
             }}
             id={joinedBookID}

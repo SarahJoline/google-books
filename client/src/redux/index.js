@@ -115,8 +115,11 @@ function JoinedBooksReducer(state = initialState, action) {
 
       bookToUpdate.borrowerID = action.userID;
 
+      const newState = {...state.data}
+
       return {
         ...state,
+        data: newState,
       };
     default:
       return state;
