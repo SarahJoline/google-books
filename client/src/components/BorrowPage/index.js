@@ -5,8 +5,8 @@ import "./index.css";
 import BookCard from "./BookCard";
 
 function BorrowPage(props) {
-  const userBooks = props.userBooks;
-  const joinedBooks = props.joinedBooks;
+  const { userBooks, joinedBooks } = props;
+
   let [searchTerm, setSearchTerm] = useState();
 
   if (!joinedBooks) {
@@ -38,11 +38,11 @@ function BorrowPage(props) {
       <div className="borrow-books">
         {!searchTerm &&
           joinedBooks.map((joinedBook) => (
-            <BookCard joinedBookID={joinedBook._id} key={joinedBook._id} />
+            <BookCard joinedBookID={joinedBook._id} image={joinedBook.image} title={joinedBook.title} borrowerId={joinedBook.borrowerID} key={joinedBook._id} />
           ))}
         {searchTerm &&
           matches.map((joinedBook) => (
-            <BookCard joinedBookID={joinedBook._id} key={joinedBook._id} />
+            <BookCard joinedBookID={joinedBook._id} image={joinedBook.image} title={joinedBook.title} borrowerId={joinedBook.borrowerID} key={joinedBook._id} />
           ))}
       </div>
     </div>

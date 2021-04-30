@@ -3,15 +3,15 @@ import { connect } from "react-redux";
 import _ from "lodash";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 
-const BookCard = (props) => {
-  const { joinedBook } = props;
+const BookCard = ({ joinedBook, borrowBook, joinedBookID, image, title, borrowerId}) => {
+  console.log(joinedBook)
 
   const [isClicked, setIsClicked] = useState(false);
 
   let loggedInStatus = AuthHelperMethods.loggedIn();
 
   function handleBorrowClick(joinedBook) {
-    AuthHelperMethods.fetch(`/api/userbooks/borrow/${joinedBook._id}`, {
+    AuthHelperMethods.fetch(`/api/userbooks/borrow/${joinedBookID}`, {
       method: "PATCH",
     }).catch((err) => {
       if (err) {
@@ -20,26 +20,26 @@ const BookCard = (props) => {
     });
 
     const userInfo = AuthHelperMethods.decodeToken();
-    props.borrowBook(userInfo.userID, joinedBook._id);
+    borrowBook(userInfo.userID, joinedBook._id);
 
     setIsClicked(true);
   }
 
   return (
-    <div className="book-card" key={joinedBook._id}>
+    <div className="book-card" key={joinedBookID}>
       <img
         className="book-image"
-        src={joinedBook.image}
-        alt={joinedBook.title}
+        src={image}
+        alt={title}
       />
 
       <div className="button-div">
-        {joinedBook.borrowerID && (
+        {borrowerId && (
           <div className="checked-out">
             <span>CHECKED OUT</span>
           </div>
         )}
-        {!joinedBook.borrowerID && (
+        {!borrowerId && (
           <button
             className="lend-button"
             onClick={() => {
@@ -47,7 +47,7 @@ const BookCard = (props) => {
                 ? handleBorrowClick(joinedBook)
                 : console.log("Not logged in");
             }}
-            id={joinedBook.id}
+            id={joinedBookID}
             data={joinedBook}
           >
             BORROW
