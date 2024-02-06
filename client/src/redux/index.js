@@ -1,6 +1,6 @@
-import { createStore, combineReducers } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
 import _ from "lodash";
+import { combineReducers, legacy_createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 // API reducers
 const initialState = {
@@ -109,17 +109,17 @@ function JoinedBooksReducer(state = initialState, action) {
         data: updatedBooks,
       };
     case "BORROW_BOOK":
-      const newDataCopy = { ...state.data };
+      // const newDataCopy = { ...state.data };
 
-      const bookToUpdate = _.find(newDataCopy, { _id: action.joinedBookID });
+      // const bookToUpdate = _.find(newDataCopy, { _id: action.joinedBookID });
 
-      bookToUpdate.borrowerID = action.userID;
+      // bookToUpdate.borrowerID = action.userID;
 
-      const newState = {...state.data}
+      // const newState = { ...state.data };
 
       return {
         ...state,
-        data: newState,
+        //     data: newState,
       };
     default:
       return state;
@@ -133,6 +133,6 @@ let combinedReducer = combineReducers({
   joinedBooks: JoinedBooksReducer,
 });
 
-let store = createStore(combinedReducer, composeWithDevTools());
+let store = legacy_createStore(combinedReducer, composeWithDevTools());
 
 export default store;
