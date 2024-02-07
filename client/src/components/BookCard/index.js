@@ -8,7 +8,6 @@ function BookCard({
   bookID,
   image,
   title,
-  borrowerId,
   handleClick,
   text,
   loggedInStatus,

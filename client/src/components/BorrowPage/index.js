@@ -65,7 +65,6 @@ function BorrowPage(props) {
             image={book.image}
             title={book.title}
             book={book}
-            borrowerId={book.borrowerID}
             key={book._id}
             text={"BORROW"}
             buttonClass={!!book.borrowerID ? "checked-out" : "lend-button"}
