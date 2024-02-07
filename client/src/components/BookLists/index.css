@@ -16,7 +16,7 @@
 
 .lend-book-card {
   width: 270px;
-  height: 40px;
+  min-height: 40px;
   background-color: white;
   margin-top: 20px;
   border-radius: 5px;
