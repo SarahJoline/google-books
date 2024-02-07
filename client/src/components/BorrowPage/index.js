@@ -7,6 +7,7 @@ import "./index.css";
 
 function BorrowPage(props) {
   const { userBooks, joinedBooks, borrowBook } = props;
+  let loggedInStatus = AuthHelperMethods.loggedIn();
   let [searchTerm, setSearchTerm] = useState();
 
   let orderedBooks = _.orderBy(joinedBooks, ["borrowerID"], ["desc"]);
@@ -66,6 +67,7 @@ function BorrowPage(props) {
               borrowerId={joinedBook.borrowerID}
               key={joinedBook._id}
               text={"BORROW"}
+              loggedInStatus={loggedInStatus}
             />
           ))}
         {searchTerm &&
@@ -79,6 +81,7 @@ function BorrowPage(props) {
               borrowerId={joinedBook.borrowerID}
               key={joinedBook._id}
               text={"BORROW"}
+              loggedInStatus={loggedInStatus}
             />
           ))}
       </div>

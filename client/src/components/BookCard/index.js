@@ -1,7 +1,6 @@
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import "../BorrowPage/index.css";
 
 function BookCard({
@@ -12,8 +11,8 @@ function BookCard({
   borrowerId,
   handleClick,
   text,
+  loggedInStatus,
 }) {
-  let loggedInStatus = AuthHelperMethods.loggedIn();
   return (
     <div className="book-card" key={bookID}>
       <img className="book-image" src={image} alt={title} />
