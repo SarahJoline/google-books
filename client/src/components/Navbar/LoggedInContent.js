@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { connect } from "react-redux";
-import AuthHelperMethods from "../../helpers/AuthHelperMethods";
-import Menu from "@material-ui/core/Menu";
+import Menu from "@mui/material/Menu";
 import _ from "lodash";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import "./index.css";
 
 function LendButton() {
@@ -36,7 +36,7 @@ function LoggedInContent(props) {
 
   useEffect(() => {
     manageButtons();
-  }, [spot]);
+  }, [spot, manageButtons]);
 
   function logout() {
     AuthHelperMethods.logout("id_token");
@@ -44,7 +44,7 @@ function LoggedInContent(props) {
   }
 
   function handleClick(e) {
-    setAnchorEl(e.target)
+    setAnchorEl(e.target);
     setOpen(true);
   }
 
@@ -77,7 +77,7 @@ function LoggedInContent(props) {
         <div
           className="user-email"
           onClick={(e) => {
-            handleClick(e)
+            handleClick(e);
           }}
         >
           {userData ? userData.email : " "}
