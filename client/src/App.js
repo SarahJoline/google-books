@@ -15,9 +15,9 @@ function App() {
         <div className="App">
           <Navbar />
           <Routes>
-            <Route exact path="/lend" component={LendPage} />
+            <Route path="/lend" element={<LendPage />} />
 
-            <Route exact path="/" component={BorrowPage} />
+            <Route path="/" element={<BorrowPage />} />
           </Routes>
         </div>
       </Router>
