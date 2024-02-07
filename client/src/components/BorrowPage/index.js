@@ -41,6 +41,8 @@ function BorrowPage(props) {
     borrowBook(userID, joinedBookID);
   }
 
+  let booksToDisplay = !searchTerm ? orderedBooks : matches;
+
   return (
     <div className="borrow-page">
       <input
@@ -56,34 +58,20 @@ function BorrowPage(props) {
       </div>
       {/* <div className="location">within 10 miles of 2330 Larkin</div> */}
       <div className="borrow-books">
-        {!searchTerm &&
-          orderedBooks.map((joinedBook) => (
-            <BookCard
-              handleClick={handleBorrowClick}
-              bookID={joinedBook._id}
-              image={joinedBook.image}
-              title={joinedBook.title}
-              book={joinedBook}
-              borrowerId={joinedBook.borrowerID}
-              key={joinedBook._id}
-              text={"BORROW"}
-              loggedInStatus={loggedInStatus}
-            />
-          ))}
-        {searchTerm &&
-          matches.map((joinedBook) => (
-            <BookCard
-              handleClick={handleBorrowClick}
-              bookID={joinedBook._id}
-              image={joinedBook.image}
-              title={joinedBook.title}
-              book={joinedBook}
-              borrowerId={joinedBook.borrowerID}
-              key={joinedBook._id}
-              text={"BORROW"}
-              loggedInStatus={loggedInStatus}
-            />
-          ))}
+        {" "}
+        {booksToDisplay.map((book) => (
+          <BookCard
+            handleClick={handleBorrowClick}
+            bookID={book._id}
+            image={book.image}
+            title={book.title}
+            book={book}
+            borrowerId={book.borrowerID}
+            key={book._id}
+            text={"BORROW"}
+            loggedInStatus={loggedInStatus}
+          />
+        ))}
       </div>
     </div>
   );
