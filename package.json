@@ -35,10 +35,7 @@
     "mongoose": "^5.9.2",
     "nodemon": "^2.0.6",
     "npm": "^10.4.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^9.1.0",
     "react-scripts": "^5.0.1",
-    "redux": "^5.0.1",
     "redux-devtools-extension": "^2.13.9"
   }
 }
