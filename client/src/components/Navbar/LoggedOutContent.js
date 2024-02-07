@@ -1,7 +1,7 @@
+import Dialog from "@mui/material/Dialog";
 import React, { useState } from "react";
 import Login from "../Login";
 import Register from "../Register";
-import Dialog from "@material-ui/core/Dialog";
 
 import "./index.css";
 
@@ -19,6 +19,7 @@ function LoggedOutContent() {
       >
         LOGIN
       </button>
+
       <button
         className="registerBtn"
         onClick={(e) => {
