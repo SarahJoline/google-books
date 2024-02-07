@@ -23,8 +23,6 @@
   },
   "homepage": "https://github.com/SarahJoline/google-books#readme",
   "dependencies": {
-    "@material-ui/core": "^4.11.2",
-    "@reduxjs/toolkit": "^2.1.0",
     "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.1.0",
@@ -36,9 +34,8 @@
     "lodash": "^4.17.20",
     "mongoose": "^5.9.2",
     "nodemon": "^2.0.6",
-    "react-scripts": "^5.0.1"
-  },
-  "devDependencies": {
-    "redux-devtools-extension": "^2.13.8"
+    "npm": "^10.4.0",
+    "react-scripts": "^5.0.1",
+    "redux-devtools-extension": "^2.13.9"
   }
 }
