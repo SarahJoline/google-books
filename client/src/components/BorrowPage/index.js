@@ -68,6 +68,7 @@ function BorrowPage(props) {
             borrowerId={book.borrowerID}
             key={book._id}
             text={"BORROW"}
+            buttonClass={!!book.borrowerID ? "checked-out" : "lend-button"}
             loggedInStatus={loggedInStatus}
           />
         ))}

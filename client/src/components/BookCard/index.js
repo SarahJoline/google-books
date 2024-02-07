@@ -12,29 +12,23 @@ function BookCard({
   handleClick,
   text,
   loggedInStatus,
+  buttonClass,
 }) {
   return (
     <div className="book-card" key={bookID}>
       <img className="book-image" src={image} alt={title} />
 
       <div className="button-div">
-        {borrowerId && (
-          <div className="checked-out">
-            <span>CHECKED OUT</span>
-          </div>
-        )}
-        {!borrowerId && (
-          <button
-            className="lend-button"
-            onClick={() => {
-              loggedInStatus ? handleClick(book) : console.log("Not logged in");
-            }}
-            id={bookID}
-            data={book}
-          >
-            {text}
-          </button>
-        )}
+        <button
+          className={buttonClass}
+          onClick={() => {
+            loggedInStatus ? handleClick(book) : console.log("Not logged in");
+          }}
+          id={bookID}
+          data={book}
+        >
+          {text}
+        </button>
       </div>
     </div>
   );

@@ -105,6 +105,7 @@ function Lend(props) {
                   handleClick={addBooksToMyLendableBooks}
                   text={"LEND"}
                   loggedInStatus={loggedInStatus}
+                  buttonClass={"lend-button"}
                 />
               );
             })}
