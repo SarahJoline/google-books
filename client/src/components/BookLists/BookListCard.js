@@ -1,7 +1,7 @@
+import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
 import "./index.css";
-import axios from "axios";
 
 function MyBook(props) {
   let myBooks = props.myBooks;
@@ -29,7 +29,7 @@ function MyBook(props) {
             <div className="book-title">{book.title}</div>
             <div className="book-author">{book.authors}</div>
           </div>
-          <div className="button-div">
+          <button className="trash-button">
             <img
               className="trash-btn"
               src="./Group.png"
@@ -40,7 +40,7 @@ function MyBook(props) {
               book={book._id}
               data={book}
             />
-          </div>
+          </button>
         </div>
       ))}
     </div>

@@ -24,6 +24,7 @@
   box-shadow: 5px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -42,7 +43,14 @@
   font-size: 16px;
 }
 
+.trash-button {
+   background-color: transparent;
+   border: none;
+   height: 50px;
+}
+
 .trash-btn {
+  margin: auto;
   width: 20px;
   height: 25px;
   padding: 10px;
