@@ -1,4 +1,4 @@
-import decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const AuthHelperMethods = {};
 
@@ -37,7 +37,7 @@ AuthHelperMethods.loggedIn = () => {
 */
 AuthHelperMethods.isTokenExpired = (token) => {
   try {
-    const decoded = decode(token);
+    const decoded = jwtDecode(token);
 
     if (decoded.exp < Date.now() / 1000) {
       // Checking if token is expired.
@@ -72,7 +72,7 @@ AuthHelperMethods.logout = () => {
 // Get the saved data that has been stored in the webtoken.
 AuthHelperMethods.decodeToken = () => {
   // Using jwt-decode npm package to decode the token
-  let answer = decode(AuthHelperMethods.getToken());
+  let answer = jwtDecode(AuthHelperMethods.getToken());
 
   return answer;
 };
