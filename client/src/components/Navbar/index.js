@@ -1,20 +1,16 @@
+import axios from "axios";
+import _ from "lodash";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
-import _ from "lodash";
-import axios from "axios";
-import "./index.css";
 import LoggedInContent from "./LoggedInContent";
 import LoggedOutContent from "./LoggedOutContent";
+import "./index.css";
 
 function Navbar(props) {
   const loggedIn = AuthHelperMethods.loggedIn();
   const books = props.books;
   const userBooks = props.userBooks;
-
-  useEffect(() => {
-    getAllBooks();
-  }, []);
 
   async function getAllBooks() {
     try {
@@ -39,6 +35,10 @@ function Navbar(props) {
       console.log(e);
     }
   }
+
+  useEffect(() => {
+    getAllBooks();
+  }, []);
 
   useEffect(() => {
     joinBooks();
