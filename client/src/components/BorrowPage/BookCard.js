@@ -1,16 +1,22 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
 import _ from "lodash";
+import React from "react";
+import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 
-const BookCard = ({ joinedBook, borrowBook, joinedBookID, image, title, borrowerId}) => {
-
+function BookCard({
+  joinedBook,
+  borrowBook,
+  joinedBookID,
+  image,
+  title,
+  borrowerId,
+}) {
   let loggedInStatus = AuthHelperMethods.loggedIn();
 
   function handleBorrowClick(joinedBookID) {
     const userInfo = AuthHelperMethods.decodeToken();
     const { userID } = userInfo;
-    
+
     AuthHelperMethods.fetch(`/api/userbooks/borrow/${joinedBookID}`, {
       method: "PATCH",
       borrowerID: userID,
@@ -21,16 +27,11 @@ const BookCard = ({ joinedBook, borrowBook, joinedBookID, image, title, borrower
     });
 
     borrowBook(userID, joinedBookID);
-
   }
 
   return (
     <div className="book-card" key={joinedBookID}>
-      <img
-        className="book-image"
-        src={image}
-        alt={title}
-      />
+      <img className="book-image" src={image} alt={title} />
 
       <div className="button-div">
         {borrowerId && (
@@ -55,7 +56,7 @@ const BookCard = ({ joinedBook, borrowBook, joinedBookID, image, title, borrower
       </div>
     </div>
   );
-};
+}
 
 const mapStateToProps = (state, ownProps) => {
   return {
