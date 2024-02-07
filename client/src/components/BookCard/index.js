@@ -4,7 +4,15 @@ import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import "../BorrowPage/index.css";
 
-function BookCard({ book, bookID, image, title, borrowerId, handleClick }) {
+function BookCard({
+  book,
+  bookID,
+  image,
+  title,
+  borrowerId,
+  handleClick,
+  text,
+}) {
   let loggedInStatus = AuthHelperMethods.loggedIn();
   return (
     <div className="book-card" key={bookID}>
@@ -25,7 +33,7 @@ function BookCard({ book, bookID, image, title, borrowerId, handleClick }) {
             id={bookID}
             data={book}
           >
-            BORROW
+            {text}
           </button>
         )}
       </div>

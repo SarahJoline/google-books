@@ -103,6 +103,7 @@ function Lend(props) {
                   image={book.image}
                   title={book.title}
                   handleClick={addBooksToMyLendableBooks}
+                  text={"LEND"}
                 />
               );
             })}

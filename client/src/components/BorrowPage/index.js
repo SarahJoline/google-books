@@ -65,6 +65,7 @@ function BorrowPage(props) {
               book={joinedBook}
               borrowerId={joinedBook.borrowerID}
               key={joinedBook._id}
+              text={"BORROW"}
             />
           ))}
         {searchTerm &&
@@ -77,6 +78,7 @@ function BorrowPage(props) {
               book={joinedBook}
               borrowerId={joinedBook.borrowerID}
               key={joinedBook._id}
+              text={"BORROW"}
             />
           ))}
       </div>
