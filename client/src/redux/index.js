@@ -109,17 +109,17 @@ function JoinedBooksReducer(state = initialState, action) {
         data: updatedBooks,
       };
     case "BORROW_BOOK":
-      // const newDataCopy = { ...state.data };
+      const newDataCopy = { ...state.data };
 
-      // const bookToUpdate = _.find(newDataCopy, { _id: action.joinedBookID });
+      const bookToUpdate = _.find(newDataCopy, { _id: action.joinedBookID });
 
-      // bookToUpdate.borrowerID = action.userID;
+      bookToUpdate.borrowerID = action.userID;
 
-      // const newState = { ...state.data };
+      const newState = { ...state.data };
 
       return {
         ...state,
-        //     data: newState,
+        data: newState,
       };
     default:
       return state;
