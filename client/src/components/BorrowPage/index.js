@@ -58,7 +58,6 @@ function BorrowPage(props) {
       </div>
       {/* <div className="location">within 10 miles of 2330 Larkin</div> */}
       <div className="borrow-books">
-        {" "}
         {booksToDisplay.map((book) => (
           <BookCard
             handleClick={handleBorrowClick}
