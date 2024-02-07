@@ -8,7 +8,7 @@
     "start": "node server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"nodemon server.js\" \"npm run client\"",
-    "build": "npm install cd client/ && npm install --legacy-peer-deps && npm run build",
+    "build": "npm install && cd client/ && npm install && npm run build",
     "render-postbuild": "NPM_CONFIG_PRODUCTION=false npm install cd client/ npm install && npm run build"
   },
   "repository": {
