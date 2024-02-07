@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import "./index.css";
 import axios from "axios";
-import BookCards from "./BookCards";
+import React, { useState } from "react";
 import BookLists from "../BookLists";
+import BookCards from "./BookCards";
+import "./index.css";
 
 function Lend() {
-  const [value, modifier] = useState({ value: " " });
+  const [value, modifier] = useState({ value: "" });
   let [books, setBooks] = useState([]);
 
   function handleSearch() {
