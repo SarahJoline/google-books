@@ -1,11 +1,12 @@
+import _ from "lodash";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
+import AuthHelperMethods from "../../helpers/AuthHelperMethods";
+import BookCard from "../BookCard";
 import "./index.css";
-import BookCard from "./BookCard";
 
 function BorrowPage(props) {
-  const { userBooks, joinedBooks } = props;
+  const { userBooks, joinedBooks, borrowBook } = props;
   let [searchTerm, setSearchTerm] = useState();
 
   let orderedBooks = _.orderBy(joinedBooks, ["borrowerID"], ["desc"]);
@@ -20,6 +21,23 @@ function BorrowPage(props) {
     matches = _.filter(orderedBooks, (joinedBook) => {
       return joinedBook.title.toLowerCase().includes(searchTerm.toLowerCase());
     });
+  }
+
+  function handleBorrowClick(book) {
+    const joinedBookID = book._id;
+    const userInfo = AuthHelperMethods.decodeToken();
+    const { userID } = userInfo;
+
+    AuthHelperMethods.fetch(`/api/userbooks/borrow/${book.id}`, {
+      method: "PATCH",
+      borrowerID: userID,
+    }).catch((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+
+    borrowBook(userID, joinedBookID);
   }
 
   return (
@@ -39,16 +57,39 @@ function BorrowPage(props) {
       <div className="borrow-books">
         {!searchTerm &&
           orderedBooks.map((joinedBook) => (
-            <BookCard joinedBookID={joinedBook._id} image={joinedBook.image} title={joinedBook.title} joinedBook={joinedBook} borrowerId={joinedBook.borrowerID} key={joinedBook._id} />
+            <BookCard
+              handleClick={handleBorrowClick}
+              bookID={joinedBook._id}
+              image={joinedBook.image}
+              title={joinedBook.title}
+              book={joinedBook}
+              borrowerId={joinedBook.borrowerID}
+              key={joinedBook._id}
+            />
           ))}
         {searchTerm &&
           matches.map((joinedBook) => (
-            <BookCard joinedBookID={joinedBook._id} image={joinedBook.image} title={joinedBook.title} joinedBook={joinedBook} borrowerId={joinedBook.borrowerID} key={joinedBook._id} />
+            <BookCard
+              handleClick={handleBorrowClick}
+              bookID={joinedBook._id}
+              image={joinedBook.image}
+              title={joinedBook.title}
+              book={joinedBook}
+              borrowerId={joinedBook.borrowerID}
+              key={joinedBook._id}
+            />
           ))}
       </div>
     </div>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    borrowBook: (userID, joinedBookID) =>
+      dispatch({ type: "BORROW_BOOK", userID, joinedBookID }),
+  };
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -57,4 +98,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(BorrowPage);
+export default connect(mapStateToProps, mapDispatchToProps)(BorrowPage);

@@ -1,11 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import AuthHelperMethods from "../../helpers/AuthHelperMethods";
+import BookCard from "../BookCard";
 import BookLists from "../BookLists";
-import BookCards from "./BookCards";
 import "./index.css";
 
-function Lend() {
+function Lend(props) {
   const [value, modifier] = useState({ value: "" });
+  let loggedInStatus = AuthHelperMethods.loggedIn();
+
   let [books, setBooks] = useState([]);
 
   function handleSearch() {
@@ -38,6 +42,37 @@ function Lend() {
       });
   }
 
+  function addBooksToMyLendableBooks(book) {
+    AuthHelperMethods.fetch(`/api/books/lend/${book.id}`, {
+      method: "POST",
+      body: JSON.stringify({
+        id: book.id,
+        title: book.title,
+        authors: book.authors,
+        description: book.description,
+        link: book.link,
+        image: book.image,
+      }),
+    }).catch((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+
+    const userInfo = AuthHelperMethods.decodeToken();
+
+    props.addToJoinedBooks({
+      id: book.id,
+      title: book.title,
+      authors: book.authors,
+      description: book.description,
+      link: book.link,
+      image: book.image,
+      borrowerID: null,
+      lenderID: userInfo.userID,
+    });
+  }
+
   return (
     <div className="lending-page">
       <div className="lending-books-div">
@@ -59,11 +94,35 @@ function Lend() {
           }}
         ></input>
         <div className="render-books">
-          <BookCards bData={books} />
+          <div className="book-container">
+            {books.map((book) => {
+              return (
+                <BookCard
+                  book={book}
+                  bookID={book.id}
+                  image={book.image}
+                  title={book.title}
+                  handleClick={addBooksToMyLendableBooks}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    userBooks: state.userBooks.data,
+    joinedBooks: state.joinedBooks.data,
+  };
+};
 
-export default Lend;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToJoinedBooks: (data) => dispatch({ type: "ADD_TO_JOINED", data: data }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lend);
