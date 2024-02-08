@@ -38,12 +38,14 @@
   margin-left: 20px;
 }
 
-.user-email {
+.user-email-button {
   font-size: 16px;
   float: right;
-  /* padding-bottom: 3px; */
+  background: transparent;
+  border: none;
+  padding: 0;
   display: flex;
-  cursor: pointer;
+  align-items: center;
 }
 
 .user-book-num {
@@ -53,4 +55,8 @@
 
 #logout-menu {
   margin-top: 65px;
+ ul{
+    display: flex;
+  flex-direction: column;
+  }
 }
