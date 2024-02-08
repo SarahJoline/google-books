@@ -1,6 +1,4 @@
-import _ from "lodash";
 import React from "react";
-import { connect } from "react-redux";
 import "../BorrowPage/index.css";
 
 function BookCard({
@@ -40,10 +38,11 @@ function BookCard({
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    joinedBook: _.find(state.joinedBooks.data, { _id: ownProps.bookID }),
-  };
-};
+// const mapStateToProps = (state, ownProps) => {
+//   return {
+//     joinedBook: _.find(state.joinedBooks.data, { _id: ownProps.bookID }),
+//   };
+// };
 
-export default connect(mapStateToProps, null)(BookCard);
+export default BookCard;
+// connect(mapStateToProps, null)(BookCard);
