@@ -38,11 +38,4 @@ function BookCard({
   );
 }
 
-// const mapStateToProps = (state, ownProps) => {
-//   return {
-//     joinedBook: _.find(state.joinedBooks.data, { _id: ownProps.bookID }),
-//   };
-// };
-
 export default BookCard;
-// connect(mapStateToProps, null)(BookCard);
