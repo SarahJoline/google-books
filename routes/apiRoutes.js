@@ -150,29 +150,32 @@ router.delete("/books/delete/:id", (req, res) => {
     });
 });
 
-router.post("/messages/send/", async (req, res) => {
+router.post("/messages/send", async (req, res) => {
   const { participants, book, userID, message } = req.body;
 
+  let conversationID;
   const conversation = await db.Conversation.findOne({
     participants: { $in: participants },
   });
-  let newConversation;
+
   if (!conversation) {
     db.Conversation.create({
       participants,
     })
       .then((res) => {
-        newConversation = res._id;
+        conversationID = res._id;
       })
       .catch((err) => {
         if (err) {
           console.log(err);
         }
       });
+  } else {
+    conversationID = conversation._id;
   }
 
   db.Message.create({
-    convertationID: newConversation,
+    conversationID: conversationID,
     message: message,
     senderID: userID,
     userBookId: book._id,
