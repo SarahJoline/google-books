@@ -6,6 +6,7 @@ import "../BorrowPage/index.css";
 function BookCard({
   book,
   bookID,
+  _id,
   image,
   title,
   handleClick,
@@ -16,7 +17,7 @@ function BookCard({
   buttonClass,
 }) {
   return (
-    <div className="book-card" key={bookID}>
+    <div className="book-card" key={_id}>
       <img className="book-image" src={image} alt={title} />
 
       <div className="button-div">
@@ -24,7 +25,7 @@ function BookCard({
           className={buttonClass}
           onClick={() => {
             loggedInStatus && openModal
-              ? handleClick(!open)
+              ? handleClick(book, open)
               : loggedInStatus && !openModal
               ? handleClick(book)
               : console.log("Not logged in");
