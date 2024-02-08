@@ -4,6 +4,9 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
+import GreenButton from "../Buttons/GreenButton";
+import RegularButton from "../Buttons/RegularButton";
+
 import "./index.css";
 
 function LendButton() {
@@ -117,22 +120,22 @@ function LoggedInContent(props) {
             horizontal: "right",
           }}
         >
-          <button
+          <RegularButton
+            text={"Messages"}
             className="messages-button"
             onClick={(e) => {
               console.log("this will open messages tab");
             }}
-          >
-            Messages
-          </button>
-          <button
+          />
+          <GreenButton
+            text={"Logout"}
             className="logoutBtn"
             onClick={(e) => {
               logout();
             }}
           >
             Logout
-          </button>
+          </GreenButton>
         </Menu>
       </div>
     </div>
