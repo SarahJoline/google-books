@@ -1,4 +1,5 @@
 import Dialog from "@mui/material/Dialog";
+import axios from "axios";
 import _ from "lodash";
 import React, { useState } from "react";
 import { connect } from "react-redux";
@@ -9,6 +10,11 @@ import "./index.css";
 
 function BorrowPage(props) {
   const [open, setOpen] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [message, setMessage] = useState("");
+
+  const userInfo = AuthHelperMethods.decodeToken();
+  const { userID } = userInfo;
 
   const { userBooks, joinedBooks, borrowBook } = props;
   let loggedInStatus = AuthHelperMethods.loggedIn();
@@ -28,12 +34,17 @@ function BorrowPage(props) {
     });
   }
 
+  function handleOpenModal(book, open) {
+    setOpen(!open);
+    setSelectedBook(book);
+  }
+
   function handleBorrowClick(book) {
     const joinedBookID = book._id;
     const userInfo = AuthHelperMethods.decodeToken();
     const { userID } = userInfo;
 
-    AuthHelperMethods.fetch(`/api/userbooks/borrow/${book.id}`, {
+    AuthHelperMethods.fetch(`/api/userbooks/borrow/${book._id}`, {
       method: "PATCH",
       borrowerID: userID,
     }).catch((err) => {
@@ -43,6 +54,21 @@ function BorrowPage(props) {
     });
 
     borrowBook(userID, joinedBookID);
+  }
+
+  async function handleStartConversation(book) {
+    axios
+      .post(`/api/messages/send`, {
+        participants: [userID, book?.lenderID],
+        book: book,
+        message: message,
+        userID: userID,
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
   }
 
   let booksToDisplay = !searchTerm ? orderedBooks : matches;
@@ -68,8 +94,8 @@ function BorrowPage(props) {
             image={book.image}
             title={book.title}
             book={book}
-            key={book._id}
-            handleClick={setOpen}
+            _id={book._id}
+            handleClick={handleOpenModal}
             open={open}
             openModal={true}
             text={"BORROW"}
@@ -87,9 +113,13 @@ function BorrowPage(props) {
             </header>
             <textarea
               className="request-message-box"
+              onChange={(e) => setMessage(e.target.value)}
               placeholder="Hey there! I would love to meet at the local cafe to borrow the book!"
             />
-            <GreenButton text={"Send request"} />
+            <GreenButton
+              text={"Send request"}
+              handleClick={() => handleStartConversation(selectedBook)}
+            />
           </div>
         </div>
       </Dialog>

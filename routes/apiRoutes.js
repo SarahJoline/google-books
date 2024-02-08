@@ -39,6 +39,16 @@ router.get("/books", (req, res) => {
     });
 });
 
+router.get("/messages", (req, res) => {
+  db.Message.find()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
 router.get("/checkusers", (req, res) => {
   db.User.find()
     .then((data) => {
@@ -60,7 +70,6 @@ router.get("/userbooks", (req, res) => {
 });
 
 router.delete("/userbooks/delete/:_id", (req, res) => {
-  console.log(req);
   db.UserBook.findOneAndDelete({ _id: req.params._id })
     .then((data) => {
       res.json(data);
@@ -84,11 +93,8 @@ router.patch("/userbooks/borrow/:_id", verify, (req, res) => {
 });
 
 router.get("/books/:title", (req, res) => {
-  console.log("user: ", req.params.title);
-
   db.Book.find({ title: req.params.title })
     .then((data) => {
-      console.log(data._id);
       res.json(data);
     })
     .catch((err) => {
@@ -144,6 +150,43 @@ router.delete("/books/delete/:id", (req, res) => {
     });
 });
 
+router.post("/messages/send/", async (req, res) => {
+  const { participants, book, userID, message } = req.body;
+
+  const conversation = await db.Conversation.findOne({
+    participants: { $in: participants },
+  });
+  let newConversation;
+  if (!conversation) {
+    db.Conversation.create({
+      participants,
+    })
+      .then((res) => {
+        newConversation = res._id;
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  }
+
+  db.Message.create({
+    convertationID: newConversation,
+    message: message,
+    senderID: userID,
+    userBookId: book._id,
+  })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+});
+
 // AUTH ROUTES
 
 router.post("/log-in", (req, res) => {
@@ -192,7 +235,6 @@ router.post("/log-in", (req, res) => {
 
 router.post("/signup", async (req, res) => {
   const { email, password, name } = req.body;
-  console.log(email, password, name);
 
   // First check if user exists
   const existingUser = await db.User.findOne({
