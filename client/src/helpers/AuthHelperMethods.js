@@ -72,9 +72,14 @@ AuthHelperMethods.logout = () => {
 // Get the saved data that has been stored in the webtoken.
 AuthHelperMethods.decodeToken = () => {
   // Using jwt-decode npm package to decode the token
-  let answer = jwtDecode(AuthHelperMethods.getToken());
 
-  return answer;
+  if (AuthHelperMethods.getToken()) {
+    let answer = jwtDecode(AuthHelperMethods.getToken());
+
+    return answer;
+  } else {
+    return "";
+  }
 };
 
 // Typical fetch except for being able to set the headers prior to sending it off to the server.
