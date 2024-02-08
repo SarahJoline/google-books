@@ -120,17 +120,17 @@ function LoggedInContent(props) {
             horizontal: "right",
           }}
         >
-          <RegularButton
-            text={"Messages"}
-            className="messages-button"
-            onClick={(e) => {
-              console.log("this will open messages tab");
-            }}
-          />
+          <Link to={"/messages"}>
+            <RegularButton
+              text={"Messages"}
+              className="messages-button"
+              handleClick={() => setOpen(false)}
+            />
+          </Link>
           <GreenButton
             text={"Logout"}
             className="logoutBtn"
-            onClick={(e) => {
+            handleClick={(e) => {
               logout();
             }}
           >
