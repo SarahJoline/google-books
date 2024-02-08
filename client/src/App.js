@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import BorrowPage from "./components/BorrowPage";
 import LendPage from "./components/LendPage";
+import MessagesPage from "./components/MessagesPage";
 import Navbar from "./components/Navbar";
 
 import store from "./redux";
@@ -18,6 +19,8 @@ function App() {
             <Route path="/lend" element={<LendPage />} />
 
             <Route path="/" element={<BorrowPage />} />
+
+            <Route path="/messages" element={<MessagesPage />} />
           </Routes>
         </div>
       </Router>
