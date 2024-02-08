@@ -10,6 +10,8 @@ function BookCard({
   title,
   handleClick,
   text,
+  open,
+  openModal,
   loggedInStatus,
   buttonClass,
 }) {
@@ -21,7 +23,11 @@ function BookCard({
         <button
           className={buttonClass}
           onClick={() => {
-            loggedInStatus ? handleClick(book) : console.log("Not logged in");
+            loggedInStatus && openModal
+              ? handleClick(!open)
+              : loggedInStatus && !openModal
+              ? handleClick(book)
+              : console.log("Not logged in");
           }}
           id={bookID}
           data={book}

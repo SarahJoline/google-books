@@ -1,11 +1,15 @@
+import Dialog from "@mui/material/Dialog";
 import _ from "lodash";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import BookCard from "../BookCard";
+import GreenButton from "../Buttons/GreenButton";
 import "./index.css";
 
 function BorrowPage(props) {
+  const [open, setOpen] = useState(false);
+
   const { userBooks, joinedBooks, borrowBook } = props;
   let loggedInStatus = AuthHelperMethods.loggedIn();
   let [searchTerm, setSearchTerm] = useState();
@@ -60,18 +64,38 @@ function BorrowPage(props) {
       <div className="borrow-books">
         {booksToDisplay.map((book) => (
           <BookCard
-            handleClick={handleBorrowClick}
             bookID={book._id}
             image={book.image}
             title={book.title}
             book={book}
             key={book._id}
+            handleClick={setOpen}
+            open={open}
+            openModal={true}
             text={"BORROW"}
             buttonClass={!!book.borrowerID ? "checked-out" : "lend-button"}
             loggedInStatus={loggedInStatus}
           />
         ))}
       </div>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <div className="request-message-container">
+          <div className="request-message-form">
+            <header className="request-message-header">
+              Send the lender a message with a meetup spot and wait for
+              approval!
+            </header>
+            <textarea
+              className="request-message-box"
+              placeholder="Hey there! I would love to meet at the local cafe to borrow the book!"
+            />
+            <GreenButton
+              text={"SEND REQUEST"}
+              handleClick={() => console.log("Hey")}
+            />
+          </div>
+        </div>
+      </Dialog>
     </div>
   );
 }

@@ -46,3 +46,30 @@ span {
   display: table-cell;
   vertical-align: middle;
 }
+
+.request-message-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 500px;
+  padding: 40px;
+  gap: 30px;
+  background-color: #f8f8f8;
+}
+
+.request-message-header {
+  font-weight: 600;
+  font-size: 24px;
+  text-align: center;
+}
+
+.request-message-box {
+  border: 1px solid#49c39f;
+  border-radius: 10px;
+  width: 95%;
+  height: 100px;
+  font-size: 16px;
+  padding: 15px;
+  resize: none;
+}
