@@ -89,10 +89,7 @@ function BorrowPage(props) {
               className="request-message-box"
               placeholder="Hey there! I would love to meet at the local cafe to borrow the book!"
             />
-            <GreenButton
-              text={"SEND REQUEST"}
-              handleClick={() => console.log("Hey")}
-            />
+            <GreenButton text={"Send request"} />
           </div>
         </div>
       </Dialog>
