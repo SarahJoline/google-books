@@ -9,3 +9,16 @@
   font-size: 17px;
   margin: 0px 10px;
 }
+
+.regular-button {
+  background-color: transparent;
+  min-width: 127px;
+  padding: 10px 30px;
+  min-height: 42px;
+  color: black;
+  border-radius: 3px;
+  border: none;
+  font-size: 17px;
+  margin: 0px 10px;
+}
+
