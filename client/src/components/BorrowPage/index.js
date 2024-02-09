@@ -69,6 +69,8 @@ function BorrowPage(props) {
           console.log(err);
         }
       });
+
+    setOpen(false);
   }
 
   let booksToDisplay = !searchTerm ? orderedBooks : matches;
