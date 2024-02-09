@@ -27,7 +27,16 @@ function MessagesPage() {
   useEffect(() => {
     getConversations();
   }, []);
-  return <div className="messages-page">Messages will go here!</div>;
+  return (
+    <div className="lending-page">
+      <div className="lending-books-div"></div>
+      <div className="form">
+        <div className="render-books">
+          <div className="book-container"></div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default MessagesPage;

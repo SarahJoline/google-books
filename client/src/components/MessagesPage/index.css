@@ -1,0 +1,23 @@
+.lending-page {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+  }
+  .lending-books-div {
+    border-right: 1px solid #e5e5e5;
+  }
+  
+  .form {
+    padding: 30px 50px;
+  }
+  
+  .render-books {
+    margin-top: 50px;
+  }
+  
+  .book-container {
+    display: flex;
+    flex-direction: row;
+    overflow: none;
+    flex-wrap: wrap;
+  }
