@@ -4,11 +4,10 @@ import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import "./index.css";
 
 function MessagesPage() {
-  const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState();
   const userInfo = AuthHelperMethods.decodeToken();
 
   function getConversations() {
-    console.log("HEY");
     axios
       .request({
         method: "GET",
@@ -23,7 +22,7 @@ function MessagesPage() {
         }
       });
   }
-  console.log(conversations);
+
   useEffect(() => {
     getConversations();
   }, []);
