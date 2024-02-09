@@ -7,7 +7,8 @@ const jwt = require("jsonwebtoken");
 const exjwt = require("express-jwt");
 const router = express.Router();
 const db = require("../models");
-const { sumBy } = require("lodash");
+const { v4: uuidv4 } = require("uuid");
+const { groupBy, sortBy } = require("lodash");
 
 async function verify(req, res, next) {
   console.log("VERIFY!");
@@ -39,10 +40,18 @@ router.get("/books", (req, res) => {
     });
 });
 
-router.get("/messages", (req, res) => {
-  db.Message.find()
+router.get("/conversations/:id", async (req, res) => {
+  let conversations;
+  await db.Message.find({
+    participants: {
+      $in: req.params.id,
+    },
+  })
     .then((data) => {
-      res.json(data);
+      conversations = data;
+      res.json(
+        groupBy(sortBy(conversations, "timestamp", "desc"), "conversationID")
+      );
     })
     .catch((err) => {
       res.json(err);
@@ -154,22 +163,12 @@ router.post("/messages/send", async (req, res) => {
   const { participants, book, userID, message } = req.body;
 
   let conversationID;
-  const conversation = await db.Conversation.findOne({
+  const conversation = await db.Message.findOne({
     participants: { $in: participants },
   });
 
   if (!conversation) {
-    db.Conversation.create({
-      participants,
-    })
-      .then((res) => {
-        conversationID = res._id;
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+    conversationID = uuidv4();
   } else {
     conversationID = conversation._id;
   }
@@ -179,9 +178,10 @@ router.post("/messages/send", async (req, res) => {
     message: message,
     senderID: userID,
     userBookId: book._id,
+    participants: participants,
   })
     .then((result) => {
-      res.json(result);
+      res.send(result);
     })
     .catch((err) => {
       if (err) {
