@@ -41,17 +41,17 @@ router.get("/books", (req, res) => {
 });
 
 router.get("/conversations/:id", async (req, res) => {
-  let conversations;
   await db.Message.find({
     participants: {
       $in: req.params.id,
     },
   })
     .then((data) => {
-      conversations = data;
-      res.json(
-        groupBy(sortBy(conversations, "timestamp", "desc"), "conversationID")
+      const conversations = groupBy(
+        sortBy(data, "timestamp", "desc"),
+        "conversationID"
       );
+      res.json(conversations);
     })
     .catch((err) => {
       res.json(err);
@@ -60,6 +60,17 @@ router.get("/conversations/:id", async (req, res) => {
 
 router.get("/checkusers", (req, res) => {
   db.User.find()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+router.get(`/user/name/:id`, (req, res) => {
+  db.User.findOne({ _id: req.params.id })
+    .select("name")
     .then((data) => {
       res.json(data);
     })
@@ -164,7 +175,9 @@ router.post("/messages/send", async (req, res) => {
 
   let conversationID;
   const conversation = await db.Message.findOne({
-    participants: { $in: participants },
+    participants: {
+      $in: participants,
+    },
   });
 
   if (!conversation) {
