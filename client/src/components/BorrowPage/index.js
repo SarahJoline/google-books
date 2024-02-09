@@ -10,6 +10,7 @@ import "./index.css";
 
 function BorrowPage(props) {
   const [open, setOpen] = useState(false);
+  const [messageStatus, setMessageStatus] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [message, setMessage] = useState("");
 
@@ -59,18 +60,22 @@ function BorrowPage(props) {
   async function handleStartConversation(book) {
     axios
       .post(`/api/messages/send`, {
-        participants: [userID, book?.lenderID],
+        participants: [{ _id: userID }, book?.lenderID],
         book: book,
         message: message,
         userID: userID,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setMessageStatus(true);
+        }
+        console.log(res);
       })
       .catch((err) => {
         if (err) {
           console.log(err);
         }
       });
-
-    setOpen(false);
   }
 
   let booksToDisplay = !searchTerm ? orderedBooks : matches;
@@ -106,22 +111,39 @@ function BorrowPage(props) {
           />
         ))}
       </div>
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog
+        open={open}
+        onClose={() => {
+          setMessageStatus(false);
+          setOpen(false);
+        }}
+      >
         <div className="request-message-container">
           <div className="request-message-form">
-            <header className="request-message-header">
-              Send the lender a message with a meetup spot and wait for
-              approval!
-            </header>
-            <textarea
-              className="request-message-box"
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Hey there! I would love to meet at the local cafe to borrow the book!"
-            />
-            <GreenButton
-              text={"Send request"}
-              handleClick={() => handleStartConversation(selectedBook)}
-            />
+            {messageStatus ? (
+              <>
+                <header className="request-message-header">
+                  Message sent! The lender will see this message as soon a I
+                  finish building out the components for it!
+                </header>
+              </>
+            ) : (
+              <>
+                <header className="request-message-header">
+                  Send the lender a message with a meetup spot and wait for
+                  approval!
+                </header>
+                <textarea
+                  className="request-message-box"
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Hey there! I would love to meet at the local cafe to borrow the book!"
+                />
+                <GreenButton
+                  text={"Send request"}
+                  handleClick={() => handleStartConversation(selectedBook)}
+                />
+              </>
+            )}
           </div>
         </div>
       </Dialog>
