@@ -36,6 +36,7 @@
     "nodemon": "^2.0.6",
     "npm": "^10.4.0",
     "react-scripts": "^5.0.1",
-    "redux-devtools-extension": "^2.13.9"
+    "redux-devtools-extension": "^2.13.9",
+    "uuid": "^9.0.1"
   }
 }
