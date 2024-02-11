@@ -40,22 +40,34 @@ router.get("/books", (req, res) => {
     });
 });
 
-router.get("/conversations/:id", async (req, res) => {
-  await db.Message.find({
-    participants: {
-      $in: req.params.id,
-    },
-  })
+router.get("/messages", (req, res) => {
+  db.Message.find()
     .then((data) => {
-      const conversations = groupBy(
-        sortBy(data, "timestamp", "desc"),
-        "conversationID"
-      );
-      res.json(conversations);
+      res.json(data);
     })
     .catch((err) => {
       res.json(err);
     });
+});
+
+router.get("/conversations/:id", async (req, res) => {
+  console.log(req.params);
+  const convo = await db.Conversation.findOne({
+    participants: {
+      $in: req.params.id,
+    },
+  });
+  console.log(convo);
+  const x = await convo.populate("messages");
+
+  console.log(x);
+  // .then((data) => {
+  //   console.log(data);
+  //   res.json(data);
+  // })
+  // .catch((err) => {
+  //   res.json(err);
+  // });
 });
 
 router.get("/checkusers", (req, res) => {
@@ -171,28 +183,41 @@ router.delete("/books/delete/:id", (req, res) => {
 });
 
 router.post("/messages/send", async (req, res) => {
-  const { participants, book, userID, message } = req.body;
+  const { book, userID, message, participants } = req.body;
 
   let conversationID;
-  const conversation = await db.Message.findOne({
-    participants: {
-      $in: participants,
-    },
+  const conversation = await db.Conversation.findOne({
+    participants: participants,
   });
 
   if (!conversation) {
-    conversationID = uuidv4();
+    await db.Conversation.create({
+      participants: participants,
+    })
+      .then((res) => {
+        conversationID = res.conversation._id;
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
   } else {
     conversationID = conversation._id;
   }
 
-  db.Message.create({
+  const newMessage = await db.Message.create({
     conversationID: conversationID,
     message: message,
     senderID: userID,
     userBookId: book._id,
     participants: participants,
-  })
+  });
+
+  db.Conversation.findOneAndUpdate(
+    { _id: conversationID },
+    { $push: { messages: newMessage._id } }
+  )
     .then((result) => {
       res.send(result);
     })
