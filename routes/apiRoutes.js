@@ -51,23 +51,23 @@ router.get("/messages", (req, res) => {
 });
 
 router.get("/conversations/:id", async (req, res) => {
-  console.log(req.params);
-  const convo = await db.Conversation.findOne({
-    participants: {
-      $in: req.params.id,
-    },
-  });
-  console.log(convo);
-  const x = await convo.populate("messages");
+  try {
+    const convo = await db.Conversation.findOne({
+      participants: {
+        $in: req.params.id,
+      },
+    });
+    const withMessages = await convo.populate("messages");
 
-  console.log(x);
-  // .then((data) => {
-  //   console.log(data);
-  //   res.json(data);
-  // })
-  // .catch((err) => {
-  //   res.json(err);
-  // });
+    const withParticipants = await withMessages.populate({
+      path: "participants",
+      select: "name",
+    });
+
+    res.json(withParticipants);
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 router.get("/checkusers", (req, res) => {
@@ -189,13 +189,14 @@ router.post("/messages/send", async (req, res) => {
   const conversation = await db.Conversation.findOne({
     participants: participants,
   });
-
+  console.log(conversation);
   if (!conversation) {
     await db.Conversation.create({
       participants: participants,
     })
       .then((res) => {
-        conversationID = res.conversation._id;
+        console.log(res);
+        conversationID = res._id;
       })
       .catch((err) => {
         if (err) {
