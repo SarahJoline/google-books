@@ -52,17 +52,25 @@ router.get("/messages", (req, res) => {
 
 router.get("/conversations/:id", async (req, res) => {
   try {
-    const convo = await db.Conversation.findOne({
+    const convo = await db.Conversation.find({
       participants: {
         $in: req.params.id,
       },
     });
-    const withMessages = await convo.populate("messages");
-
-    const withParticipants = await withMessages.populate({
-      path: "participants",
-      select: "name",
-    });
+    const withMessages = await Promise.all(
+      convo.map(async (conversation) => {
+        await conversation.populate("messages");
+        return conversation;
+      })
+    );
+    const withParticipants = await Promise.all(
+      withMessages.map(async (conversation) => {
+        return await conversation.populate({
+          path: "participants",
+          select: "name",
+        });
+      })
+    );
 
     res.json(withParticipants);
   } catch (err) {
