@@ -3,4 +3,5 @@ module.exports = {
   User: require("./User"),
   UserBook: require("./UserBooks"),
   Message: require("./Message"),
+  Conversation: require("./Conversations"),
 };
