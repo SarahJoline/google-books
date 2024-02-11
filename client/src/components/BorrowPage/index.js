@@ -60,7 +60,8 @@ function BorrowPage(props) {
   async function handleStartConversation(book) {
     axios
       .post(`/api/messages/send`, {
-        participants: [{ _id: userID }, book?.lenderID],
+        participants: [userID, book?.lenderID],
+        lenderID: book?.lenderID,
         book: book,
         message: message,
         userID: userID,
