@@ -68,6 +68,36 @@ function UserBooksReducer(state = initialState, action) {
   }
 }
 
+function ConversationsReducer(state = initialState, action) {
+  switch (action.type) {
+    case "CONVERSATIONS_LOADING":
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        error: null,
+      };
+    case "CONVERSATIONS_LOADED":
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        error: null,
+        data: action.data,
+      };
+    case "CONVERSATIONS_ERROR":
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error: action.error,
+      };
+
+    default:
+      return state;
+  }
+}
+
 function JoinedBooksReducer(state = initialState, action) {
   switch (action.type) {
     case "JOINED_LOADING":
@@ -131,6 +161,7 @@ let combinedReducer = combineReducers({
   books: BooksReducer,
   userBooks: UserBooksReducer,
   joinedBooks: JoinedBooksReducer,
+  conversations: ConversationsReducer,
 });
 
 let store = legacy_createStore(combinedReducer, composeWithDevTools());
