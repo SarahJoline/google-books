@@ -4,8 +4,8 @@ import _ from "lodash";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
-import BookCard from "../BookCard";
 import GreenButton from "../Buttons/GreenButton";
+import BookCard from "../Cards/BookCard";
 import "./index.css";
 
 function BorrowPage(props) {
