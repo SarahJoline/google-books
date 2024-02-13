@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
-import BookCard from "../BookCard";
 import BookLists from "../BookLists";
+import BookCard from "../Cards/BookCard";
 import "./index.css";
 
 function Lend(props) {
