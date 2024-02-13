@@ -93,6 +93,12 @@ function ConversationsReducer(state = initialState, action) {
         error: action.error,
       };
 
+    case "ADD_CONVERSATION":
+      return {
+        ...state,
+        data: [...state.data, action.data],
+      };
+
     default:
       return state;
   }
