@@ -17,7 +17,7 @@ function BorrowPage(props) {
   const userInfo = AuthHelperMethods.decodeToken();
   const { userID } = userInfo;
 
-  const { userBooks, joinedBooks, borrowBook } = props;
+  const { userBooks, joinedBooks, borrowBook, addConversations } = props;
   let loggedInStatus = AuthHelperMethods.loggedIn();
   let [searchTerm, setSearchTerm] = useState();
 
@@ -70,7 +70,7 @@ function BorrowPage(props) {
         if (res.status === 200) {
           setMessageStatus(true);
         }
-        console.log(res);
+        addConversations(res);
       })
       .catch((err) => {
         if (err) {
@@ -156,6 +156,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     borrowBook: (userID, joinedBookID) =>
       dispatch({ type: "BORROW_BOOK", userID, joinedBookID }),
+    addConversations: (data) =>
+      dispatch({ type: "ADD_TO_CONVERSATIONS", data: data }),
   };
 };
 
