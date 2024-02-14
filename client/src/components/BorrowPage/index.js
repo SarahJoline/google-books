@@ -100,21 +100,23 @@ function BorrowPage(props) {
       </div>
       {/* <div className="location">within 10 miles of 2330 Larkin</div> */}
       <div className="borrow-books">
-        {booksToDisplay.map((book) => (
-          <BookCard
-            bookID={book._id}
-            image={book.image}
-            title={book.title}
-            book={book}
-            _id={book._id}
-            handleClick={handleOpenModal}
-            open={open}
-            openModal={true}
-            text={"BORROW"}
-            buttonClass={!!book.borrowerID ? "checked-out" : "lend-button"}
-            loggedInStatus={loggedInStatus}
-          />
-        ))}
+        {booksToDisplay
+          .filter((book) => book.lenderID !== userID)
+          .map((book) => (
+            <BookCard
+              bookID={book._id}
+              image={book.image}
+              title={book.title}
+              book={book}
+              _id={book._id}
+              handleClick={handleOpenModal}
+              open={open}
+              openModal={true}
+              text={"BORROW"}
+              buttonClass={!!book.borrowerID ? "checked-out" : "lend-button"}
+              loggedInStatus={loggedInStatus}
+            />
+          ))}
       </div>
       <Dialog
         open={open}
