@@ -5,19 +5,41 @@
   }
   .lending-books-div {
     border-right: 1px solid #e5e5e5;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+
   }
   
   .form {
     padding: 30px 50px;
+    flex: 1;
   }
   
   .render-books {
     margin-top: 50px;
   }
   
-  .book-container {
+  .messages-container {
     display: flex;
-    flex-direction: row;
-    overflow: none;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 10px;
+
+  }
+
+  .message-box {
+    border-radius: 20px;
+    padding: 15px;
+    width: fit-content;
+  }
+
+  .me-message {
+    border: 1px solid #49c39f;
+    align-self: flex-end;
+  }
+
+  .you-message {
+    background-color: #49c39f;
+    color: #fff;
   }

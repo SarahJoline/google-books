@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
+import ConversationButton from "../Buttons/ConversationButton";
 import "./index.css";
 
 function MessagesPage(props) {
@@ -32,21 +33,34 @@ function MessagesPage(props) {
     <div className="lending-page">
       <div className="lending-books-div">
         {conversations?.map((convo) => {
-          console.log(convo);
           const { name } = convo.participants.find((participant) => {
             return participant.id !== userInfo.userID;
           });
-          console.log(name);
           return (
-            <button onClick={() => setMessages(convo.messages)}>{name}</button>
+            <ConversationButton
+              text={name}
+              handleClick={() => setMessages(convo.messages)}
+            />
           );
         })}
       </div>
       <div className="form">
         <div className="render-books">
-          <div className="book-container">
+          <div className="messages-container">
             {messages.map((message) => {
-              return <div>{message.message}</div>;
+              return (
+                <div
+                  className={`message-box ${
+                    message.senderID === userInfo.userID
+                      ? "me-message"
+                      : "you-message"
+                  }
+                    
+                  `}
+                >
+                  {message.message}
+                </div>
+              );
             })}
           </div>
         </div>
