@@ -44,8 +44,8 @@ function MessagesPage(props) {
           );
         })}
       </div>
-      <div className="form">
-        <div className="render-books">
+      <div className="chat-form">
+        <div className="chat-container">
           <div className="messages-container">
             {messages.map((message) => {
               return (
@@ -64,6 +64,7 @@ function MessagesPage(props) {
             })}
           </div>
         </div>
+        <textarea className="message-input" />
       </div>
     </div>
   );

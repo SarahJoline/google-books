@@ -9,23 +9,34 @@
     flex-direction: column;
     gap: 5px;
     padding: 15px;
+    height: 85vh;
+  }
+
+  .lending-books-div::-webkit-scrollbar {
+    display: none;
+}
+  
+  .chat-form {
+    padding: 30px 50px;
+    flex: 1;
 
   }
   
-  .form {
-    padding: 30px 50px;
-    flex: 1;
+  .chat-container {
+    overflow-y: scroll;
+    height: 60vh;
+
   }
-  
-  .render-books {
-    margin-top: 50px;
-  }
+
+  .chat-container::-webkit-scrollbar {
+    display: none;
+}
   
   .messages-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
-
+    
   }
 
   .message-box {
@@ -42,4 +53,15 @@
   .you-message {
     background-color: #49c39f;
     color: #fff;
+  }
+
+  .message-input {
+    margin-top: 20px;
+    border: 1px solid#49c39f;
+    border-radius: 10px;
+    width: 90%;
+    height: 100px;
+    font-size: 16px;
+    padding: 15px;
+    resize: none;
   }
