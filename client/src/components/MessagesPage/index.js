@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import ConversationButton from "../Buttons/ConversationButton";
@@ -25,6 +25,15 @@ function MessagesPage(props) {
         }
       });
   }
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     getConversations();
@@ -47,7 +56,7 @@ function MessagesPage(props) {
       <div className="chat-form">
         <div className="chat-container">
           <div className="messages-container">
-            {messages.map((message) => {
+            {messages.map((message, index) => {
               return (
                 <div
                   className={`message-box ${
@@ -57,6 +66,7 @@ function MessagesPage(props) {
                   }
                     
                   `}
+                  ref={index === messages.length - 1 ? messagesEndRef : null}
                 >
                   {message.message}
                 </div>
