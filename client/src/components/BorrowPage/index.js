@@ -1,4 +1,6 @@
 import Dialog from "@mui/material/Dialog";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import _ from "lodash";
 import React, { useState } from "react";
@@ -10,6 +12,7 @@ import "./index.css";
 
 function BorrowPage(props) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const [messageStatus, setMessageStatus] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [message, setMessage] = useState("");
@@ -59,7 +62,7 @@ function BorrowPage(props) {
 
   async function handleStartConversation(book) {
     axios
-      .post(`/api/messages/send`, {
+      .post(`/api/conversations/send`, {
         participants: [userID, book?.lenderID],
         lenderID: book?.lenderID,
         book: book,
@@ -71,6 +74,7 @@ function BorrowPage(props) {
           setMessageStatus(true);
         }
         addConversations(res);
+        navigate(`/messages?id=${res.data._id}`);
       })
       .catch((err) => {
         if (err) {

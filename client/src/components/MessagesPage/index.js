@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
+import { useLocation, useSearchParams } from "react-router-dom";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import ConversationButton from "../Buttons/ConversationButton";
 import "./index.css";
@@ -8,7 +9,10 @@ import "./index.css";
 function MessagesPage(props) {
   const { conversations, loadConversations } = props;
   const [messages, setMessages] = useState([]);
+  const [conversation, setConversation] = useState("");
   const userInfo = AuthHelperMethods.decodeToken();
+  const { search } = useLocation();
+  const [params] = useSearchParams();
 
   function getConversations() {
     axios
@@ -31,9 +35,21 @@ function MessagesPage(props) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  function sendMessage() {
+    axios.request({
+      method: "POST",
+      url: `/api/conversation/message/send/${conversation._id}`,
+    });
+  }
+
   useEffect(() => {
+    const conversation = conversations?.find((conversation) => {
+      return conversation._id === params.get("id");
+    });
+
+    setConversation(conversation);
     scrollToBottom();
-  }, [messages]);
+  }, [search, conversations, conversation]);
 
   useEffect(() => {
     getConversations();
@@ -45,8 +61,10 @@ function MessagesPage(props) {
           const { name } = convo.participants.find((participant) => {
             return participant.id !== userInfo.userID;
           });
+
           return (
             <ConversationButton
+              link={`/messages?id=${convo._id}`}
               text={name}
               handleClick={() => setMessages(convo.messages)}
             />
@@ -56,7 +74,7 @@ function MessagesPage(props) {
       <div className="chat-form">
         <div className="chat-container">
           <div className="messages-container">
-            {messages.map((message, index) => {
+            {conversation?.messages?.map((message, index) => {
               return (
                 <div
                   className={`message-box ${

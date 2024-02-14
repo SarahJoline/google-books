@@ -1,11 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./index.css";
 
-function ConversationButton({ text, handleClick = () => null }) {
+function ConversationButton({ text, link, handleClick = () => null }) {
   return (
-    <button className="conversation-button" onClick={() => handleClick()}>
-      {text}
-    </button>
+    <Link to={link}>
+      <button className="conversation-button" onClick={() => handleClick()}>
+        {text}
+      </button>
+    </Link>
   );
 }
 
