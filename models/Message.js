@@ -7,7 +7,7 @@ const MessageSchema = new Schema({
   message: {
     type: Schema.Types.String,
   },
-  userBookId: { type: Schema.Types.ObjectId, ref: "userBooks" },
+  userBookId: { type: Schema.Types.ObjectId, ref: "UserBook" },
   timestamp: { type: Date, default: Date.now },
 });
 

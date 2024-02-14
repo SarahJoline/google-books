@@ -59,10 +59,22 @@ router.get("/conversations/:id", async (req, res) => {
     });
     const withMessages = await Promise.all(
       convo.map(async (conversation) => {
-        await conversation.populate("messages");
+        await conversation.populate({
+          path: "messages",
+          model: "Message",
+          populate: {
+            path: "userBookId",
+            model: "UserBook",
+            populate: {
+              path: "bookID",
+              model: "Book",
+            },
+          },
+        });
         return conversation;
       })
     );
+
     const withParticipants = await Promise.all(
       withMessages.map(async (conversation) => {
         return await conversation.populate({
@@ -235,12 +247,12 @@ router.post("/conversations/send", async (req, res) => {
     });
 });
 
-router.post("/conversation/message/send/:id", async (req, res) => {
+router.post("/conversation/:id/message/send", async (req, res) => {
+  const { userID, message, participants } = req.body;
   const newMessage = await db.Message.create({
     conversationID: req.params.id,
     message: message,
     senderID: userID,
-    userBookId: book._id,
     participants: participants,
   });
 
@@ -248,8 +260,8 @@ router.post("/conversation/message/send/:id", async (req, res) => {
     { _id: req.params.id },
     { $push: { messages: newMessage._id } }
   )
-    .then((result) => {
-      res.send(result);
+    .then(() => {
+      res.json(newMessage);
     })
     .catch((err) => {
       if (err) {
