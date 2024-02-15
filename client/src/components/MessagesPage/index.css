@@ -84,6 +84,7 @@
   .book-to-borrow-card {
     display: flex;
     gap: 5px;
+    justify-content: space-evenly;
   }
 
   .book-title {

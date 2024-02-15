@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
+import BorrowButton from "../Buttons/BorrowButton";
 import ConversationButton from "../Buttons/ConversationButton";
-import GreenButton from "../Buttons/GreenButton";
 import "./index.css";
 
 function MessagesPage(props) {
@@ -59,7 +59,6 @@ function MessagesPage(props) {
         userID: userID,
       })
       .then((res) => {
-        console.log("The message should reset");
         setNewMessage("");
         addToConversations(res.data);
       });
@@ -115,7 +114,7 @@ function MessagesPage(props) {
                         {message.userBookId.bookID.title}
                       </h1>
                       {userID === message.userBookId.lenderID && (
-                        <GreenButton
+                        <BorrowButton
                           text="Mark as lent"
                           handleClick={() =>
                             handleBorrowClick(message.userBookId)
