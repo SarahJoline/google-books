@@ -7,18 +7,37 @@ import ConversationButton from "../Buttons/ConversationButton";
 import "./index.css";
 
 function MessagesPage(props) {
-  const { conversations, loadConversations } = props;
+  const { conversations, loadConversations, addToConversations, borrowBook } =
+    props;
   const [messages, setMessages] = useState([]);
-  const [conversation, setConversation] = useState("");
-  const userInfo = AuthHelperMethods.decodeToken();
+  const [newMessage, setNewMessage] = useState("");
+  const [conversation, setConversation] = useState();
+  const { userID } = AuthHelperMethods.decodeToken();
   const { search } = useLocation();
   const [params] = useSearchParams();
+
+  function handleBorrowClick(book) {
+    const joinedBookID = book._id;
+    const userInfo = AuthHelperMethods.decodeToken();
+    const { userID } = userInfo;
+
+    AuthHelperMethods.fetch(`/api/userbooks/borrow/${book._id}`, {
+      method: "PATCH",
+      borrowerID: userID,
+    }).catch((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+
+    borrowBook(userID, joinedBookID);
+  }
 
   function getConversations() {
     axios
       .request({
         method: "GET",
-        url: `/api/conversations/${userInfo.userID}`,
+        url: `/api/conversations/${userID}`,
       })
       .then((result) => {
         loadConversations(result.data);
@@ -35,11 +54,19 @@ function MessagesPage(props) {
     messagesEndRef.current?.scrollIntoView();
   };
 
-  function sendMessage() {
-    axios.request({
-      method: "POST",
-      url: `/api/conversation/message/send/${conversation._id}`,
-    });
+  function sendMessage(newMessage) {
+    console.log("Hey");
+    axios
+      .post(`/api/conversation/${conversation._id}/message/send`, {
+        participants: conversation.participants,
+        message: newMessage,
+        userID: userID,
+      })
+      .then((res) => {
+        console.log(res);
+        setNewMessage("");
+        //  addToConversations(res.data);
+      });
   }
 
   useEffect(() => {
@@ -59,7 +86,7 @@ function MessagesPage(props) {
       <div className="lending-books-div">
         {conversations?.map((convo) => {
           const { name } = convo.participants.find((participant) => {
-            return participant.id !== userInfo.userID;
+            return participant._id !== userID;
           });
 
           return (
@@ -76,23 +103,41 @@ function MessagesPage(props) {
           <div className="messages-container">
             {conversation?.messages?.map((message, index) => {
               return (
-                <div
-                  className={`message-box ${
-                    message.senderID === userInfo.userID
-                      ? "me-message"
-                      : "you-message"
-                  }
-                    
+                <>
+                  {message.userBookId && (
+                    <div className="book-to-borrow-card">
+                      <img
+                        className="image"
+                        src={message.userBookId.bookID.image}
+                      />
+                      <h1 className="book-title">
+                        {message.userBookId.bookID.title}
+                      </h1>
+                      <button onClick={() => console.log("borrowed")}>
+                        Mark as lent
+                      </button>
+                    </div>
+                  )}
+                  <div
+                    className={`message-box ${
+                      message.senderID === userID ? "me-message" : "you-message"
+                    }
+
                   `}
-                  ref={index === messages.length - 1 ? messagesEndRef : null}
-                >
-                  {message.message}
-                </div>
+                    ref={index === messages.length - 1 ? messagesEndRef : null}
+                  >
+                    {message.message}
+                  </div>
+                </>
               );
             })}
           </div>
         </div>
-        <textarea className="message-input" />
+        <textarea
+          onChange={(e) => setNewMessage(e.target.value)}
+          className="message-input"
+        />
+        <button onClick={() => sendMessage(newMessage)}>Send</button>
       </div>
     </div>
   );
@@ -110,6 +155,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadConversations: (data) =>
       dispatch({ type: "CONVERSATIONS_LOADED", data: data }),
+    addToConversations: (data) => {
+      dispatch({ type: "ADD_MESSAGE_TO_CONVERSATION", data: data });
+    },
+    borrowBook: (userID, joinedBookID) =>
+      dispatch({ type: "BORROW_BOOK", userID, joinedBookID }),
   };
 };
 
