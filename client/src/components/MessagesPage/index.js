@@ -116,10 +116,12 @@ function MessagesPage(props) {
                       <h1 className="book-title">
                         {message.userBookId.bookID.title}
                       </h1>
-                      <GreenButton
-                        text="Mark as lent"
-                        onClick={() => console.log("borrowed")}
-                      />
+                      {userID === message.userBookId.lenderID && (
+                        <GreenButton
+                          text="Mark as lent"
+                          onClick={() => console.log("borrowed")}
+                        />
+                      )}
                     </div>
                   )}
                   <div
