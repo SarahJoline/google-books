@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import ConversationButton from "../Buttons/ConversationButton";
+import GreenButton from "../Buttons/GreenButton";
 import "./index.css";
 
 function MessagesPage(props) {
@@ -53,20 +54,22 @@ function MessagesPage(props) {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView();
   };
-
   function sendMessage(newMessage) {
-    console.log("Hey");
-    axios
-      .post(`/api/conversation/${conversation._id}/message/send`, {
-        participants: conversation.participants,
-        message: newMessage,
-        userID: userID,
-      })
-      .then((res) => {
-        console.log(res);
-        setNewMessage("");
-        //  addToConversations(res.data);
-      });
+    if (newMessage.length && newMessage !== " ") {
+      axios
+        .post(`/api/conversation/${conversation._id}/message/send`, {
+          participants: conversation.participants,
+          message: newMessage,
+          userID: userID,
+        })
+        .then((res) => {
+          console.log(res);
+          setNewMessage("");
+          addToConversations(res.data);
+        });
+    } else {
+      return;
+    }
   }
 
   useEffect(() => {
@@ -113,9 +116,10 @@ function MessagesPage(props) {
                       <h1 className="book-title">
                         {message.userBookId.bookID.title}
                       </h1>
-                      <button onClick={() => console.log("borrowed")}>
-                        Mark as lent
-                      </button>
+                      <GreenButton
+                        text="Mark as lent"
+                        onClick={() => console.log("borrowed")}
+                      />
                     </div>
                   )}
                   <div
