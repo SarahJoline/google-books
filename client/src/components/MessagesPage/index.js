@@ -113,14 +113,26 @@ function MessagesPage(props) {
                       <h1 className="book-title">
                         {message.userBookId.bookID.title}
                       </h1>
-                      {userID === message.userBookId.lenderID && (
+                      {userID === message.userBookId.lenderID &&
+                      !message.userBookId.borrowerID ? (
                         <BorrowButton
                           text="Mark as lent"
                           handleClick={() =>
                             handleBorrowClick(message.userBookId)
                           }
                         />
-                      )}
+                      ) : userID === message.userBookId.lenderID &&
+                        message.userBookId.borrowerID ? (
+                        <BorrowButton
+                          text="Lent!"
+                          disabled
+                          handleClick={() =>
+                            console.log(
+                              "Maybe I'll add back return functionality here?"
+                            )
+                          }
+                        />
+                      ) : null}
                     </div>
                   )}
                   <div
