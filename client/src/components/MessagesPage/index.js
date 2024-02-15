@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import ConversationButton from "../Buttons/ConversationButton";
 import GreenButton from "../Buttons/GreenButton";
@@ -14,7 +14,6 @@ function MessagesPage(props) {
   const [newMessage, setNewMessage] = useState("");
   const [conversation, setConversation] = useState();
   const { userID } = AuthHelperMethods.decodeToken();
-  const { search } = useLocation();
   const [params] = useSearchParams();
 
   function handleBorrowClick(book) {
@@ -74,17 +73,16 @@ function MessagesPage(props) {
     });
 
     setConversation(conversation);
-    scrollToBottom();
-  }, [search, conversations, conversation]);
+    setMessages(conversation?.messages);
+  }, [params.get("id"), conversations, conversation]);
 
   useEffect(() => {
     getConversations();
-    scrollToBottom();
   }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [conversation?.messages, messages]);
+  }, [conversation, messages]);
 
   return (
     <div className="lending-page">
