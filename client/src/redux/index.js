@@ -93,10 +93,16 @@ function ConversationsReducer(state = initialState, action) {
         error: action.error,
       };
 
-    case "ADD_CONVERSATION":
+    case "ADD_MESSAGE_TO_CONVERSATION":
       return {
         ...state,
-        data: [...state.data, action.data],
+        data: state.data.map((convo) => {
+          if (convo._id === action.data.conversationID) {
+            return { ...convo, messages: [...convo.messages, action.data] };
+          } else {
+            return convo;
+          }
+        }),
       };
 
     default:
