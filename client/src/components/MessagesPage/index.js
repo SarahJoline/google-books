@@ -18,8 +18,6 @@ function MessagesPage(props) {
 
   function handleBorrowClick(book) {
     const joinedBookID = book._id;
-    const userInfo = AuthHelperMethods.decodeToken();
-    const { userID } = userInfo;
 
     AuthHelperMethods.fetch(`/api/userbooks/borrow/${book._id}`, {
       method: "PATCH",
@@ -119,7 +117,9 @@ function MessagesPage(props) {
                       {userID === message.userBookId.lenderID && (
                         <GreenButton
                           text="Mark as lent"
-                          onClick={() => console.log("borrowed")}
+                          handleClick={() =>
+                            handleBorrowClick(message.userBookId)
+                          }
                         />
                       )}
                     </div>
