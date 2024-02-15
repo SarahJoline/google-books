@@ -52,24 +52,20 @@ function MessagesPage(props) {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView();
+    messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
   };
   function sendMessage(newMessage) {
-    if (newMessage.length && newMessage !== " ") {
-      axios
-        .post(`/api/conversation/${conversation._id}/message/send`, {
-          participants: conversation.participants,
-          message: newMessage,
-          userID: userID,
-        })
-        .then((res) => {
-          console.log(res);
-          setNewMessage("");
-          addToConversations(res.data);
-        });
-    } else {
-      return;
-    }
+    axios
+      .post(`/api/conversation/${conversation._id}/message/send`, {
+        participants: conversation.participants,
+        message: newMessage,
+        userID: userID,
+      })
+      .then((res) => {
+        console.log("The message should reset");
+        setNewMessage("");
+        addToConversations(res.data);
+      });
   }
 
   useEffect(() => {
@@ -83,7 +79,13 @@ function MessagesPage(props) {
 
   useEffect(() => {
     getConversations();
+    scrollToBottom();
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [conversation?.messages, messages]);
+
   return (
     <div className="lending-page">
       <div className="lending-books-div">
@@ -144,6 +146,7 @@ function MessagesPage(props) {
           />
           <button
             className="send-message-button"
+            disabled={newMessage.length === 0 || newMessage === " "}
             onClick={() => sendMessage(newMessage)}
           >
             Send
