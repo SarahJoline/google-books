@@ -55,13 +55,42 @@
     color: #fff;
   }
 
-  .message-input {
+  .message-input-container {
+    display:flex;
+    align-items: center;
     margin-top: 20px;
+  }
+  .message-input {
+
     border: 1px solid#49c39f;
-    border-radius: 10px;
-    width: 90%;
+    border-radius: 10px 0 0 10px;
+    width: 85%;
     height: 100px;
     font-size: 16px;
     padding: 15px;
     resize: none;
+  }
+
+  .send-message-button {
+    background-color: #49c39f;
+    border: 1px solid#49c39f;
+    height: 132px;
+    color: #fff;
+    flex: 1;
+    border-radius: 0 10px 10px 0;
+    font-size: 17px;
+  }
+
+  .book-to-borrow-card {
+    display: flex;
+    gap: 5px;
+  }
+
+  .book-title {
+    font-size: 16px;
+  }
+
+  .image {
+    height: 60px;
+    width: 40px; 
   }

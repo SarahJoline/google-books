@@ -133,11 +133,18 @@ function MessagesPage(props) {
             })}
           </div>
         </div>
-        <textarea
-          onChange={(e) => setNewMessage(e.target.value)}
-          className="message-input"
-        />
-        <button onClick={() => sendMessage(newMessage)}>Send</button>
+        <div className="message-input-container ">
+          <textarea
+            onChange={(e) => setNewMessage(e.target.value)}
+            className="message-input"
+          />
+          <button
+            className="send-message-button"
+            onClick={() => sendMessage(newMessage)}
+          >
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );
