@@ -95,7 +95,7 @@ function BorrowPage(props) {
               handleClick={handleOpenModal}
               open={open}
               openModal={true}
-              text={"BORROW"}
+              text={!!book.borrowerID ? "CHECKED OUT" : "BORROW"}
               buttonClass={!!book.borrowerID ? "checked-out" : "lend-button"}
               loggedInStatus={loggedInStatus}
             />
