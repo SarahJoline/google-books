@@ -16,19 +16,19 @@ function MessagesPage(props) {
   const { userID } = AuthHelperMethods.decodeToken();
   const [params] = useSearchParams();
 
-  function handleBorrowClick(book) {
-    const joinedBookID = book._id;
-
-    AuthHelperMethods.fetch(`/api/userbooks/borrow/${book._id}`, {
+  function handleBorrowClick(message) {
+    AuthHelperMethods.fetch(`/api/userbooks/borrow/${message.userBookId._id}`, {
       method: "PATCH",
       borrowerID: userID,
-    }).catch((err) => {
-      if (err) {
-        console.log(err);
-      }
-    });
-
-    borrowBook(userID, joinedBookID);
+    })
+      .then(() => {
+        borrowBook(message);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
   }
 
   function getConversations() {
@@ -117,9 +117,7 @@ function MessagesPage(props) {
                       !message.userBookId.borrowerID ? (
                         <BorrowButton
                           text="Mark as lent"
-                          handleClick={() =>
-                            handleBorrowClick(message.userBookId)
-                          }
+                          handleClick={() => handleBorrowClick(message)}
                         />
                       ) : userID === message.userBookId.lenderID &&
                         message.userBookId.borrowerID ? (
@@ -184,8 +182,11 @@ const mapDispatchToProps = (dispatch) => {
     addToConversations: (data) => {
       dispatch({ type: "ADD_MESSAGE_TO_CONVERSATION", data: data });
     },
-    borrowBook: (userID, joinedBookID) =>
-      dispatch({ type: "BORROW_BOOK", userID, joinedBookID }),
+    borrowBook: (data) =>
+      dispatch({
+        type: "MARK_BOOK_AS_BORROWED_IN_CONVERSATION",
+        data: data,
+      }),
   };
 };
 

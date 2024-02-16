@@ -105,6 +105,33 @@ function ConversationsReducer(state = initialState, action) {
         }),
       };
 
+    case "MARK_BOOK_AS_BORROWED_IN_CONVERSATION":
+      return {
+        ...state,
+        data: state.data.map((convo) => {
+          if (convo._id === action.data.conversationID) {
+            return {
+              ...convo,
+              messages: convo.messages.map((message) => {
+                if (message.userBookId?._id === action.data.userBookId._id) {
+                  return {
+                    ...message,
+                    userBookId: {
+                      ...message.userBookId,
+                      borrowerID: message.senderID,
+                    },
+                  };
+                } else {
+                  return message;
+                }
+              }),
+            };
+          } else {
+            return convo;
+          }
+        }),
+      };
+
     default:
       return state;
   }
@@ -163,6 +190,7 @@ function JoinedBooksReducer(state = initialState, action) {
         ...state,
         data: newState,
       };
+
     default:
       return state;
   }
