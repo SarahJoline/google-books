@@ -154,6 +154,7 @@ function MessagesPage(props) {
           <textarea
             onChange={(e) => setNewMessage(e.target.value)}
             className="message-input"
+            value={newMessage}
           />
           <button
             className="send-message-button"
