@@ -48,6 +48,8 @@
   border: none;
   font-size: 17px;
   margin: 0px 10px;
+  max-height: 50px;
+  align-self: center;
 }
 
 .conversation-button-link {
