@@ -43,23 +43,6 @@ function BorrowPage(props) {
     setSelectedBook(book);
   }
 
-  function handleBorrowClick(book) {
-    const joinedBookID = book._id;
-    const userInfo = AuthHelperMethods.decodeToken();
-    const { userID } = userInfo;
-
-    AuthHelperMethods.fetch(`/api/userbooks/borrow/${book._id}`, {
-      method: "PATCH",
-      borrowerID: userID,
-    }).catch((err) => {
-      if (err) {
-        console.log(err);
-      }
-    });
-
-    borrowBook(userID, joinedBookID);
-  }
-
   async function handleStartConversation(book) {
     axios
       .post(`/api/conversations/send`, {
