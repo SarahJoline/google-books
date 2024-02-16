@@ -38,6 +38,11 @@
   margin-left: 20px;
 }
 
+.app-name-link {
+  color: #000;
+  text-decoration: none;
+}
+
 .user-email-button {
   font-size: 16px;
   float: right;
