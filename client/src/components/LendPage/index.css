@@ -32,29 +32,3 @@ h3 {
   overflow: none;
   flex-wrap: wrap;
 }
-
-.book-card {
-  border-radius: 2px;
-  width: 161px;
-  height: 210px;
-  margin: 10px;
-  background-color: #1e262b;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.book-image {
-  width: 106px;
-  height: 155px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.lend-button {
-  width: 161px;
-  height: 55px;
-  color: #1f9af3;
-  font-size: 17px;
-  background-color: white;
-  border: none;
-}

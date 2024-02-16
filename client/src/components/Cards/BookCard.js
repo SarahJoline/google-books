@@ -1,5 +1,5 @@
 import React from "react";
-import "../BorrowPage/index.css";
+import "./bookcard.css";
 
 function BookCard({
   book,
