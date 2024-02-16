@@ -1,7 +1,7 @@
-import React, { useState } from "react";
 import axios from "axios";
-import "./index.css";
+import React, { useState } from "react";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
+import "./index.css";
 
 function Login(props) {
   let [login, setLogin] = useState({ email: " ", password: " " });
@@ -48,7 +48,7 @@ function Login(props) {
             sendLogin();
           }}
         >
-          Login
+          Log in
         </button>
       </div>
     </div>
