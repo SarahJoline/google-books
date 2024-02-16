@@ -2,6 +2,7 @@ import axios from "axios";
 import _ from "lodash";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import LoggedInContent from "./LoggedInContent";
 import LoggedOutContent from "./LoggedOutContent";
@@ -61,7 +62,9 @@ function Navbar(props) {
 
   return (
     <div className="container">
-      <div className="app-name">Book Swap</div>
+      <Link className="app-name-link" to={"/borrow"}>
+        <div className="app-name">Book Swap</div>
+      </Link>
 
       {loggedIn ? <LoggedInContent /> : <LoggedOutContent />}
     </div>
