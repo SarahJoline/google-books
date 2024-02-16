@@ -128,14 +128,12 @@ function LoggedInContent(props) {
             />
           </Link>
           <GreenButton
-            text={"Logout"}
+            text={"Log out"}
             className="logoutBtn"
             handleClick={(e) => {
               logout();
             }}
-          >
-            Logout
-          </GreenButton>
+          />
         </Menu>
       </div>
     </div>
