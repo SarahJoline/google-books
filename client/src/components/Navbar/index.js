@@ -62,7 +62,7 @@ function Navbar(props) {
 
   return (
     <div className="container">
-      <Link className="app-name-link" to={"/borrow"}>
+      <Link className="app-name-link" to={"/"}>
         <div className="app-name">Book Swap</div>
       </Link>
 
