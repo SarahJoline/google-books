@@ -17,7 +17,7 @@ function LoggedOutContent() {
           setOpenLogin(true);
         }}
       >
-        LOGIN
+        LOG IN
       </button>
 
       <button
