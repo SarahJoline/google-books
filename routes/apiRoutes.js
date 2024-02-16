@@ -206,68 +206,58 @@ router.post("/conversations/send", async (req, res) => {
   const { book, userID, message, participants } = req.body;
 
   let conversationID;
-  const conversation = await db.Conversation.findOne({
-    participants: participants,
-  });
-  if (!conversation) {
-    await db.Conversation.create({
+  try {
+    const conversation = await db.Conversation.findOne({
       participants: participants,
-    })
-      .then((res) => {
-        conversationID = res._id;
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-  } else {
-    conversationID = conversation._id;
-  }
-
-  const newMessage = await db.Message.create({
-    conversationID: conversationID,
-    message: message,
-    senderID: userID,
-    userBookId: book._id,
-    participants: participants,
-  });
-
-  db.Conversation.findOneAndUpdate(
-    { _id: conversationID },
-    { $push: { messages: newMessage._id } }
-  )
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      if (err) {
-        console.log(err);
-      }
     });
+    if (!conversation) {
+      const newConversation = await db.Conversation.create({
+        participants: participants,
+      });
+
+      conversationID = newConversation._id;
+    } else {
+      conversationID = conversation._id;
+    }
+
+    const newMessage = await db.Message.create({
+      conversationID: conversationID,
+      message: message,
+      senderID: userID,
+      userBookId: book._id,
+      participants: participants,
+    });
+
+    const updatedConversation = await db.Conversation.findOneAndUpdate(
+      { _id: conversationID },
+      { $push: { messages: newMessage._id } }
+    );
+
+    res.send(updatedConversation);
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 router.post("/conversation/:id/message/send", async (req, res) => {
   const { userID, message, participants } = req.body;
-  const newMessage = await db.Message.create({
-    conversationID: req.params.id,
-    message: message,
-    senderID: userID,
-    participants: participants,
-  });
-
-  db.Conversation.findOneAndUpdate(
-    { _id: req.params.id },
-    { $push: { messages: newMessage._id } }
-  )
-    .then(() => {
-      res.json(newMessage);
-    })
-    .catch((err) => {
-      if (err) {
-        console.log(err);
-      }
+  try {
+    const newMessage = await db.Message.create({
+      conversationID: req.params.id,
+      message: message,
+      senderID: userID,
+      participants: participants,
     });
+
+    await db.Conversation.findOneAndUpdate(
+      { _id: req.params.id },
+      { $push: { messages: newMessage._id } }
+    );
+
+    res.json(newMessage);
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 // AUTH ROUTES
