@@ -4,7 +4,7 @@ import "./index.css";
 
 function ConversationButton({ text, link, handleClick = () => null }) {
   return (
-    <Link to={link}>
+    <Link className="conversation-button-link" to={link}>
       <button className="conversation-button" onClick={() => handleClick()}>
         {text}
       </button>
