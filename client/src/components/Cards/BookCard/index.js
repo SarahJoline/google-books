@@ -1,5 +1,5 @@
 import React from "react";
-import "./bookcard.css";
+import "./index.css";
 
 function BookCard({
   book,
