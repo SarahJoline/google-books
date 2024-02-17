@@ -80,23 +80,3 @@
     border-radius: 0 10px 10px 0;
     font-size: 17px;
   }
-
-  .book-to-borrow-card {
-    display: flex;
-    gap: 5px;
-    background-color: #fff;
-    padding: 15px 15px 15px 30px;
-    border-radius: 5px;
-    gap: 20px;
-
-  }
-
-  .book-title {
-    font-size: 16px;
-    flex: 1;
-  }
-
-  .image {
-    height: 60px;
-    width: 40px; 
-  }

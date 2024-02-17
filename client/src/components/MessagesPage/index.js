@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
-import BorrowButton from "../Buttons/BorrowButton";
 import ConversationButton from "../Buttons/ConversationButton";
+import ConversationBookCard from "../Cards/ConversationBookCard/index.js";
 import "./index.css";
 
 function MessagesPage(props) {
@@ -105,25 +105,11 @@ function MessagesPage(props) {
               return (
                 <>
                   {message.userBookId && (
-                    <div className="book-to-borrow-card">
-                      <img
-                        className="image"
-                        src={message.userBookId.bookID.image}
-                      />
-                      <h1 className="book-title">
-                        {message.userBookId.bookID.title}
-                      </h1>
-                      {userID === message.userBookId.lenderID &&
-                      !message.userBookId.borrowerID ? (
-                        <BorrowButton
-                          text="Mark as lent"
-                          handleClick={() => handleBorrowClick(message)}
-                        />
-                      ) : userID === message.userBookId.lenderID &&
-                        message.userBookId.borrowerID ? (
-                        <BorrowButton text="Lent!" disabled />
-                      ) : null}
-                    </div>
+                    <ConversationBookCard
+                      message={message}
+                      userID={userID}
+                      handleBorrowClick={handleBorrowClick}
+                    />
                   )}
                   <div
                     className={`message-box ${
