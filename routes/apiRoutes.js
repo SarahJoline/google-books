@@ -144,6 +144,19 @@ router.patch("/userbooks/borrow/:_id", verify, (req, res) => {
     });
 });
 
+router.patch("/userbooks/return/:_id", (req, res) => {
+  db.UserBook.findOneAndUpdate(
+    { _id: req.params._id },
+    { $set: { borrowerID: null } }
+  )
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
 router.get("/books/:title", (req, res) => {
   db.Book.find({ title: req.params.title })
     .then((data) => {

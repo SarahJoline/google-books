@@ -24,7 +24,7 @@ function MyBook(props) {
   function returnBook(book) {
     axios
       .request({
-        method: "DELETE",
+        method: "PATCH",
         url: `/api/userbooks/return/${book._id}`,
       })
       .catch((err) => {
