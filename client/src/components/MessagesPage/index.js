@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
+import ScrollTo from "../../helpers/ScrollTo";
 import ConversationButton from "../Buttons/ConversationButton";
 import ChatBox from "../ChatBox";
 import "./index.css";
@@ -48,9 +49,6 @@ function MessagesPage(props) {
   }
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
-  };
   function sendMessage(newMessage) {
     axios
       .post(`/api/conversation/${conversation._id}/message/send`, {
@@ -78,7 +76,7 @@ function MessagesPage(props) {
   }, []);
 
   useEffect(() => {
-    scrollToBottom();
+    ScrollTo(messagesEndRef);
   }, [conversation, messages]);
 
   return (
