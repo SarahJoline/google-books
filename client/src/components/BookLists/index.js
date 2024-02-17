@@ -1,9 +1,9 @@
-import React from "react";
-import AuthHelperMethods from "../../helpers/AuthHelperMethods";
-import { connect } from "react-redux";
 import _ from "lodash";
-import "./index.css";
+import React from "react";
+import { connect } from "react-redux";
+import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import BookListCard from "./BookListCard";
+import "./index.css";
 
 function BookList(props) {
   const userInfo = AuthHelperMethods.decodeToken();
@@ -11,14 +11,15 @@ function BookList(props) {
   const myBooks = _.filter(props.joinedBooks, {
     lenderID: userInfo.userID,
   });
-
   return (
     <div className="booklist">
       <div className="booklist-content">
         <div className="lending">Books you're lending</div>
         <div className="lending-number">{myBooks.length} books</div>
         <div className="booklist-div">
-          <BookListCard myBooks={myBooks} />
+          {myBooks.map((book) => {
+            return <BookListCard book={book} />;
+          })}
         </div>
       </div>
     </div>
