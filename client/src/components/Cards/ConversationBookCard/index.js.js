@@ -3,7 +3,6 @@ import BorrowButton from "../../Buttons/BorrowButton";
 import "./index.css";
 
 function ConversationBookCard({ message, userID, handleBorrowClick }) {
-  console.log(message);
   return (
     <div className="book-to-borrow-card">
       <img className="image" src={message.userBookId.bookID.image} />
