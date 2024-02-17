@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
+import BorrowButton from "../Buttons/BorrowButton";
 import "./index.css";
 
 function MyBook(props) {
@@ -43,14 +44,12 @@ function MyBook(props) {
         <div className="book-author">{book.authors}</div>
       </div>
       {book.borrowerID ? (
-        <button
-          onClick={() => {
+        <BorrowButton
+          handleClick={() => {
             returnBook(book);
           }}
-        >
-          {" "}
-          Mark as returned
-        </button>
+          text={"Returned"}
+        />
       ) : (
         <button className="trash-button">
           <img
