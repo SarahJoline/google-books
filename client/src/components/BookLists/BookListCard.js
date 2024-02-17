@@ -32,6 +32,8 @@ function MyBook(props) {
           console.log(err);
         }
       });
+
+    props.returnBook(book);
   }
 
   return (
@@ -70,6 +72,7 @@ function MyBook(props) {
 //writing
 const mapDispatchToProps = (dispatch) => {
   return {
+    returnBook: (data) => dispatch({ type: "RETURN_BOOK", data: data }),
     deleteFromJoinedBooks: (_id) =>
       dispatch({ type: "DELETE_FROM_JOINED", _id: _id }),
   };

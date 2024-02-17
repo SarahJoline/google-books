@@ -191,6 +191,18 @@ function JoinedBooksReducer(state = initialState, action) {
         data: newState,
       };
 
+    case "RETURN_BOOK":
+      return {
+        ...state,
+        data: state.data.map((book) => {
+          if (action.data._id === book._id) {
+            return { ...book, borrowerID: null };
+          } else {
+            return book;
+          }
+        }),
+      };
+
     default:
       return state;
   }
