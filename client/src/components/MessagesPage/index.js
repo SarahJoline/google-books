@@ -121,15 +121,7 @@ function MessagesPage(props) {
                         />
                       ) : userID === message.userBookId.lenderID &&
                         message.userBookId.borrowerID ? (
-                        <BorrowButton
-                          text="Lent!"
-                          disabled
-                          handleClick={() =>
-                            console.log(
-                              "Maybe I'll add back return functionality here?"
-                            )
-                          }
-                        />
+                        <BorrowButton text="Lent!" disabled />
                       ) : null}
                     </div>
                   )}
