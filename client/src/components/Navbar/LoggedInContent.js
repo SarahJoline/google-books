@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
-import GreenButton from "../Buttons/GreenButton";
+import { GreenButton } from "../Buttons";
 import RegularButton from "../Buttons/RegularButton";
 
 import "./index.css";
