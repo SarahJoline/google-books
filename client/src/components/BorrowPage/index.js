@@ -6,7 +6,7 @@ import _ from "lodash";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
-import GreenButton from "../Buttons/GreenButton";
+import { GreenButton } from "../Buttons";
 import BookCard from "../Cards/BookCard";
 import "./index.css";
 

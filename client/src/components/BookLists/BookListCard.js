@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
-import BorrowButton from "../Buttons/BorrowButton";
+import { BorrowButton } from "../Buttons";
 import "./index.css";
 
 function MyBook(props) {
