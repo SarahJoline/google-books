@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import AuthHelperMethods from "../../helpers/AuthHelperMethods";
 import ScrollTo from "../../helpers/ScrollTo";
-import ConversationButton from "../Buttons/ConversationButton";
+import { ConversationButton } from "../Buttons";
 import ChatBox from "../ChatBox";
 import "./index.css";
 
