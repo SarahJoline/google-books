@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useSearchParams } from "react-router-dom";
@@ -13,9 +15,17 @@ function MessagesPage(props) {
     props;
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const navigate = useNavigate();
   const [conversation, setConversation] = useState();
   const { userID } = AuthHelperMethods.decodeToken();
+  let loggedInStatus = AuthHelperMethods.loggedIn();
   const [params] = useSearchParams();
+
+  useEffect(() => {
+    if (!loggedInStatus) {
+      navigate("/");
+    }
+  });
 
   function handleBorrowClick(message) {
     AuthHelperMethods.fetch(`/api/userbooks/borrow/${message.userBookId._id}`, {
