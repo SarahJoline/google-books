@@ -1,5 +1,5 @@
 import React from "react";
-import BorrowButton from "../../Buttons/BorrowButton";
+import { BorrowButton } from "../../Buttons";
 import "./index.css";
 
 function ConversationBookCard({ message, userID, handleBorrowClick }) {
