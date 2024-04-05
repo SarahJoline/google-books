@@ -10,7 +10,7 @@ function Lend(props) {
   const [value, modifier] = useState({ value: "" });
   let loggedInStatus = AuthHelperMethods.loggedIn();
 
-  let [books, setBooks] = useState([]);
+  const [books, setBooks] = useState([]);
 
   function handleSearch() {
     axios
