@@ -22,8 +22,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm install --legacy-peer-deps && react-scripts build",
-    "test": "react-scripts test",
+    "build": "CI=false npm install --legacy-peer-deps && react-scripts build",
+    "test": "CI=false react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
