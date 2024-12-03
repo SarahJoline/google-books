@@ -7,9 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"nodemon server.js\" \"npm run client\"",
+    "dev": "CI=false concurrently \"nodemon server.js\" \"npm run client\"",
     "build": "CI=false npm install --legacy-peer-deps && cd client/ && npm install --legacy-peer-deps && npm run build",
-    "render-postbuild": "NPM_CONFIG_PRODUCTION=false npm install cd client/ npm install && npm run build"
+    "render-postbuild": "CI=false NPM_CONFIG_PRODUCTION=false npm install cd client/ npm install && npm run build"
   },
   "repository": {
     "type": "git",
