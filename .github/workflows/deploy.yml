@@ -19,13 +19,23 @@ jobs:
       with:
         node-version: '22.x'
 
-    - name: Install dependencies
+    # Install backend dependencies
+    - name: Install backend dependencies
       run: npm install
 
-    - name: Build the app
+    # Install frontend dependencies
+    - name: Install frontend dependencies
+      run: |
+        cd client
+        npm install
+
+    # Build the frontend app
+    - name: Build the frontend app
       env:
         CI: false
-      run: npm run build  
+      run: |
+        cd client
+        npm run build  
 
     - name: Deploy to S3
       uses: jakejarvis/s3-sync-action@v0.5.0
