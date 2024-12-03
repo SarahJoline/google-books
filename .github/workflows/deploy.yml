@@ -9,8 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    env: 
-      CI: false
 
     steps:
     - name: Checkout code
@@ -32,6 +30,7 @@ jobs:
       with:
         args: --acl public-read --delete
       env:
+        CI: false
         AWS_S3_BUCKET: bookswap.sarahnaasportfolio.com
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
